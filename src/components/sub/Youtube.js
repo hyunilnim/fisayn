@@ -3,21 +3,26 @@ import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import Modal from '../common/Modal';
 
+// youtube api 연동하기
+// 연동할 플레이리스트의 정보를 변수에 담기
+//
+// 출력될 화면(마크업) 그려주기
+// 이미지 썸네일 누르면 팝업되게 하기
+
 function Youtube() {
 	const modal = useRef(null);
 	const [Video, setVideo] = useState([]);
 	const [Index, setIndex] = useState(0);
-
-	useEffect(() => {
+	const fetchYoutube = async () => {
 		const key = 'AIzaSyC4TpEbx2d9lOtjiVQIg3b6wA6ZKKrDL7c';
 		const list = 'PLQZTVbf9_qAn_Nwrz2maZG64AaEBcFZfb';
 		const num = 10;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${list}&key=${key}&maxResults=${num}`;
-
-		axios.get(`${url}`).then((data) => {
-			console.log(data.data.items);
-			setVideo(data.data.items);
-		});
+		const result = await axios.get(url);
+		setVideo(result.data.items);
+	};
+	useEffect(() => {
+		fetchYoutube();
 	}, []);
 	return (
 		<>
@@ -68,4 +73,5 @@ function Youtube() {
 		</>
 	);
 }
+
 export default Youtube;
