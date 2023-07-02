@@ -46,8 +46,11 @@ function Contact() {
 	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
 
 	useEffect(() => {
+		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, option);
+
 		marker.setMap(mapInstance);
+
 		setLocation(mapInstance);
 	}, [index]);
 
@@ -66,7 +69,7 @@ function Contact() {
 					<button type='button'>제주 지점</button> */}
 					{info.map((el, idx) => {
 						return (
-							<button type='button' key={idx} onClick={() => setIndex(idx)}>
+							<button type='button' className={idx === index ? 'on' : ''} key={idx} onClick={() => setIndex(idx)}>
 								{el.title}
 							</button>
 						);
