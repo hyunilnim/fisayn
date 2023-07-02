@@ -27,41 +27,49 @@ function Youtube() {
 	return (
 		<>
 			<Layout name={'Youtube'}>
-				{Video.map((video, idx) => {
-					return (
-						<article key={idx}>
-							<div className='gallery_item'>
-								<div
-									className='gallery_item__img'
-									onClick={() => {
-										console.log('test');
-										modal.current.openPop();
-										setIndex(idx);
-									}}
-								>
-									<img src={video.snippet.thumbnails.standard.url} alt={video.snippet.title} className='gallery_img' />
-								</div>
-								<div className='gallery_item__side gallery_side'>
-									<h2 className='gallery_side__title'>
-										{video.snippet.title.length > 70 ? video.snippet.title.substr(0, 90) + '...' : video.snippet.title}
-									</h2>
-									<p className='gallery_side__desc'>
-										{video.snippet.description.length > 200
-											? video.snippet.description.substr(0, 200) + '...'
-											: video.snippet.description}
-									</p>
+				<ul className='gallery_list'>
+					{Video.map((video, idx) => {
+						return (
+							<li key={idx}>
+								<div className='gallery_item'>
+									<div
+										className='gallery_item__img'
+										onClick={() => {
+											console.log('test');
+											modal.current.openPop();
+											setIndex(idx);
+										}}
+									>
+										<img
+											src={video.snippet.thumbnails.standard.url}
+											alt={video.snippet.title}
+											className='gallery_img'
+										/>
+									</div>
+									<div className='gallery_item__side gallery_side'>
+										<h2 className='gallery_side__title'>
+											{video.snippet.title.length > 70
+												? video.snippet.title.substr(0, 90) + '...'
+												: video.snippet.title}
+										</h2>
+										<p className='gallery_side__desc'>
+											{video.snippet.description.length > 200
+												? video.snippet.description.substr(0, 200) + '...'
+												: video.snippet.description}
+										</p>
 
-									<div className='gallery_side__info gallery_info'>
-										<span className='gallery_info__name'>{video.snippet.videoOwnerChannelTitle}</span>
-										<span className='gallery_info__date'>
-											{video.snippet.publishedAt.split('T')[0].split('-').join('.')}
-										</span>
+										<div className='gallery_side__info gallery_info'>
+											<span className='gallery_info__name'>{video.snippet.videoOwnerChannelTitle}</span>
+											<span className='gallery_info__date'>
+												{video.snippet.publishedAt.split('T')[0].split('-').join('.')}
+											</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						</article>
-					);
-				})}
+							</li>
+						);
+					})}
+				</ul>
 			</Layout>
 			<Modal ref={modal}>
 				<iframe
