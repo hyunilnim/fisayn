@@ -1,7 +1,4 @@
 .Contact {
-	.head_title {
-		padding: 0 10%;
-	}
 	.map_wrap {
 		position: relative;
 		margin-top: 50px;
@@ -306,11 +303,7 @@
 }
 
 @media screen and (max-width: $tablet) {
-	.location_wrap {
-		.head_title {
-			padding: 0 5%;
-		}
-
+	.Contact {
 		.map_wrap {
 			.branch {
 				display: flex;

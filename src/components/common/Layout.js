@@ -7,10 +7,10 @@ function Layout({ name, children }) {
 	}, []);
 	return (
 		<section className={`content ${name}`} ref={frame}>
-			<figure></figure>
+			{/* <figure></figure> */}
 
 			<div className='inner'>
-				<h1>{name}</h1>
+				<h2 className='head_title'>{name}</h2>
 				{children}
 			</div>
 		</section>
