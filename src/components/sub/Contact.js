@@ -6,6 +6,8 @@ function Contact() {
 	const { kakao } = window;
 	const [traffic, setTraffic] = useState(false);
 	const [index, setIndex] = useState(0);
+	//	처음 마운트시에만 실행될 코드와 특정 state값 변경될때마다 실행할 코드값의 useEffect구문 분리
+	const [location, setLocation] = useState(null);
 
 	const info = [
 		{
@@ -46,25 +48,31 @@ function Contact() {
 	useEffect(() => {
 		const mapInstance = new kakao.maps.Map(container.current, option);
 		marker.setMap(mapInstance);
+		setLocation(mapInstance);
+	}, [index]);
 
+	useEffect(() => {
 		traffic
-			? mapInstance.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
-			: mapInstance.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+			? location?.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+			: location?.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 	}, [traffic]);
 
 	return (
 		<Layout name={'Contact'}>
-			{/* <div class='map_wrap'>
-				<div class='branch'>
-					<button class='on' type='button'>본점</button>
-					<button type='button'>서울 지점</button>
-					<button type='button'>제주 지점</button>
-					<span class='branch__bg'></span>
-				</div>
-				<div class='wrap' id='map'></div>
-				<button type='button' class='btnToggle'>교통 상황 보지 않기</button>
-			</div> */}
 			<div className='map_wrap'>
+				<div className='branch'>
+					{/* <button className='on' type='button'>본점</button>
+					<button type='button'>서울 지점</button>
+					<button type='button'>제주 지점</button> */}
+					{info.map((el, idx) => {
+						return (
+							<button type='button' key={idx} onClick={() => setIndex(idx)}>
+								{el.title}
+							</button>
+						);
+					})}
+					<span className='branch__bg'></span>
+				</div>
 				<div id='map' ref={container}></div>
 				<button
 					type='button'
