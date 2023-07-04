@@ -110,7 +110,6 @@ function Contact() {
 							setTraffic(!traffic);
 						}}
 					>
-						{''}
 						{traffic ? 'TRAFFIC OFF' : 'TRAFFIC ON'}
 					</button>
 				</div>
