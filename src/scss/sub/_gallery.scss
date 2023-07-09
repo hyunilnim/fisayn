@@ -5,12 +5,6 @@ $gap: 30px;
 		position: relative;
 		width: 100%;
 
-		.sub_head {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-end;
-		}
-
 		.searchBox {
 			position: relative;
 			width: 40%;
@@ -56,29 +50,6 @@ $gap: 30px;
 				}
 			}
 		}
-
-		// .loading {
-		// 	position: fixed;
-		// 	top: 50%;
-		// 	left: 50%;
-		// 	transform: translate(-50%, -50%);
-		// 	z-index: 10;
-		// 	width: 100%;
-		// 	height: 100%;
-		// 	opacity: 0.8;
-		// 	z-index: 100;
-
-		// 	&.off {
-		// 		opacity: 0;
-		// 		z-index: -1;
-		// 	}
-
-		// 	img {
-		// 		width: 100%;
-		// 		height: 100%;
-		// 		object-fit: cover;
-		// 	}
-		// }
 
 		.loading {
 			display: flex;
@@ -140,6 +111,7 @@ $gap: 30px;
 				}
 			}
 		}
+
 		.inner {
 			padding-top: 100px;
 		}
@@ -220,7 +192,6 @@ $gap: 30px;
 			li {
 				float: left;
 				width: calc(33.333% - $gap);
-				// border-left: 1px solid $primary-color;
 				padding: $gap 0 0;
 				margin-left: $gap;
 			}
@@ -263,6 +234,7 @@ $gap: 30px;
 						transform: scale(1.1);
 					}
 				}
+
 				.gallery_profile {
 					position: relative;
 					padding: 50px 0 25px;
