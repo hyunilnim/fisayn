@@ -13,7 +13,7 @@ function Contact() {
 	const { kakao } = window;
 	const [traffic, setTraffic] = useState(false);
 	const [index, setIndex] = useState(0);
-	//	처음 마운트시에만 실행될 코드와 특정 state값 변경될때마다 실행할 코드값의 useEffect구문 분리
+
 	const [location, setLocation] = useState(null);
 	const [Success, setSuccess] = useState(false);
 
@@ -53,7 +53,6 @@ function Contact() {
 	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
 	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
 
-	//폼메일 전송 함수
 	const sendEmail = (e) => {
 		e.preventDefault();
 
