@@ -1,14 +1,15 @@
 import axios from 'axios';
 import Layout from '../common/Layout';
+import Masonry from 'react-masonry-component';
 import { useEffect, useRef, useState } from 'react';
 
 function Gallery() {
 	const frame = useRef(null);
-	const counter = useRef(0);
 	const [Item, setItem] = useState([]);
 	const [Loader, setLoader] = useState(true);
 
 	const fetchData = async (opt) => {
+		let counter = 0;
 		const api_key = '6c70577e2661042cd0ab587b17f6c944';
 		// const myID = '198484213@N03';
 		const num = 20;
@@ -39,9 +40,9 @@ function Gallery() {
 		const imgs = frame.current.querySelectorAll('img');
 		imgs.forEach((img) => {
 			img.onload = () => {
-				++counter.current;
-				console.log(counter);
-				if (counter.current === num * 2) {
+				++counter;
+
+				if (counter === imgs.length) {
 					setLoader(false);
 					frame.current.classList.add('on');
 				}
@@ -50,48 +51,66 @@ function Gallery() {
 	};
 
 	useEffect(() => {
-		// fetchData({ type: 'search', tags: 'sky' });
-		fetchData({ type: 'user', user: '198484213@N03' });
+		fetchData({ type: 'interest' });
+		// fetchData({ type: 'user', user: '198484213@N03' });
 	}, []);
 
 	return (
 		<Layout name={'Gallery'}>
 			<div className='gallery_wrap'>
 				<div className='gallery_menu'>
-					<button type='button' className='btnInterest on'>
+					<button
+						type='button'
+						onClick={() => {
+							setLoader(true);
+							frame.current.classList.remove('on');
+							fetchData({ type: 'interest' });
+						}}
+						className='on'
+					>
 						Interest Gallery
 					</button>
-					<button type='button' className='btnMine'>
+					<button
+						type='button'
+						onClick={() => {
+							setLoader(true);
+							frame.current.classList.remove('on');
+							fetchData({ type: 'user', user: '198484213@N03' });
+						}}
+						className=''
+					>
 						My Gallery
 					</button>
 					<span className='gallery_menu__bg'></span>
 				</div>
-				<ul className='gallery_list' ref={frame}>
-					{Item.map((item, idx) => {
-						return (
-							<li className='item' key={idx}>
-								<div className='gallery_item'>
-									<img
-										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
-										alt={item.title}
-										className='pic'
-									/>
-									<div className='gallery_item__profile gallery_profile'>
-										<p className='gallery_profile__img'>
-											<img
-												src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
-												alt={item.title}
-												onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
-											/>
-										</p>
-										<span className='gallery_profile__id'>{item.owner}</span>
-										<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
+				<div ref={frame}>
+					<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
+						{Item.map((item, idx) => {
+							return (
+								<li className='item' key={idx}>
+									<div className='gallery_item'>
+										<img
+											src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
+											alt={item.title}
+											className='pic'
+										/>
+										<div className='gallery_item__profile gallery_profile'>
+											<p className='gallery_profile__img'>
+												<img
+													src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+													alt={item.title}
+													onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+												/>
+											</p>
+											<span className='gallery_profile__id'>{item.owner}</span>
+											<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
+										</div>
 									</div>
-								</div>
-							</li>
-						);
-					})}
-				</ul>
+								</li>
+							);
+						})}
+					</Masonry>
+				</div>
 			</div>
 			{Loader && (
 				<div className='loading'>
