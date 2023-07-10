@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function Gallery() {
+	const btnSet = useRef(null);
+	const enableEvent = useRef(null);
 	const frame = useRef(null);
 	const searchInput = useRef(null);
 	const [Item, setItem] = useState([]);
@@ -15,7 +17,7 @@ function Gallery() {
 		let counter = 0;
 		const api_key = '6c70577e2661042cd0ab587b17f6c944';
 		// const myID = '198484213@N03';
-		const num = 200;
+		const num = 20;
 		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1`;
 
 		const method_interest = 'flickr.interestingness.getList';
@@ -48,6 +50,7 @@ function Gallery() {
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
+					enableEvent.current = true;
 				}
 			};
 		});
@@ -59,6 +62,16 @@ function Gallery() {
 		fetchData({ type: 'search', tags: tag });
 		searchInput.current.value = '';
 	};
+
+	const resetGallery = (e) => {
+		const btns = btnSet.current.querySelectorAll('button');
+		btns.forEach((el) => el.classList.remove('on'));
+		e.target.classList.add('on');
+		enableEvent.current = false;
+		setLoader(true);
+		frame.current.classList.remove('on');
+	};
+
 	useEffect(() => {
 		fetchData({ type: 'interest' });
 		// fetchData({ type: 'user', user: '198484213@N03' });
@@ -68,12 +81,13 @@ function Gallery() {
 		<Layout name={'Gallery'}>
 			<div className='gallery_wrap'>
 				<div className='gallery_top'>
-					<div className='gallery_menu'>
+					<div className='gallery_menu btnSet' ref={btnSet}>
 						<button
 							type='button'
-							onClick={() => {
-								setLoader(true);
-								frame.current.classList.remove('on');
+							onClick={(e) => {
+								if (!enableEvent.current) return;
+								if (e.target.classList.contains('on')) return;
+								resetGallery(e);
 								fetchData({ type: 'interest' });
 							}}
 							className='on'
@@ -82,9 +96,11 @@ function Gallery() {
 						</button>
 						<button
 							type='button'
-							onClick={() => {
-								setLoader(true);
-								frame.current.classList.remove('on');
+							onClick={(e) => {
+								if (!enableEvent.current) return;
+								if (e.target.classList.contains('on')) return;
+								resetGallery(e);
+
 								fetchData({ type: 'user', user: '198484213@N03' });
 							}}
 							className=''
@@ -123,6 +139,8 @@ function Gallery() {
 											<span
 												className='gallery_profile__id'
 												onClick={(e) => {
+													if (!enableEvent.current) return;
+													enableEvent.current = false;
 													setLoader(true);
 													frame.current.classList.remove('on');
 													fetchData({ type: 'user', user: e.target.innerText });
