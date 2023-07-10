@@ -1,10 +1,13 @@
 import axios from 'axios';
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function Gallery() {
 	const frame = useRef(null);
+	const searchInput = useRef(null);
 	const [Item, setItem] = useState([]);
 	const [Loader, setLoader] = useState(true);
 
@@ -12,7 +15,7 @@ function Gallery() {
 		let counter = 0;
 		const api_key = '6c70577e2661042cd0ab587b17f6c944';
 		// const myID = '198484213@N03';
-		const num = 20;
+		const num = 200;
 		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1`;
 
 		const method_interest = 'flickr.interestingness.getList';
@@ -42,14 +45,20 @@ function Gallery() {
 			img.onload = () => {
 				++counter;
 
-				if (counter === imgs.length) {
+				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
 				}
 			};
 		});
 	};
+	const showSearch = (e) => {
+		const tag = searchInput.current.value.trim();
+		if (tag === '') return alert('검색어를 입력하세요.');
 
+		fetchData({ type: 'search', tags: tag });
+		searchInput.current.value = '';
+	};
 	useEffect(() => {
 		fetchData({ type: 'interest' });
 		// fetchData({ type: 'user', user: '198484213@N03' });
@@ -58,32 +67,41 @@ function Gallery() {
 	return (
 		<Layout name={'Gallery'}>
 			<div className='gallery_wrap'>
-				<div className='gallery_menu'>
-					<button
-						type='button'
-						onClick={() => {
-							setLoader(true);
-							frame.current.classList.remove('on');
-							fetchData({ type: 'interest' });
-						}}
-						className='on'
-					>
-						Interest Gallery
-					</button>
-					<button
-						type='button'
-						onClick={() => {
-							setLoader(true);
-							frame.current.classList.remove('on');
-							fetchData({ type: 'user', user: '198484213@N03' });
-						}}
-						className=''
-					>
-						My Gallery
-					</button>
-					<span className='gallery_menu__bg'></span>
+				<div className='gallery_top'>
+					<div className='gallery_menu'>
+						<button
+							type='button'
+							onClick={() => {
+								setLoader(true);
+								frame.current.classList.remove('on');
+								fetchData({ type: 'interest' });
+							}}
+							className='on'
+						>
+							Interest Gallery
+						</button>
+						<button
+							type='button'
+							onClick={() => {
+								setLoader(true);
+								frame.current.classList.remove('on');
+								fetchData({ type: 'user', user: '198484213@N03' });
+							}}
+							className=''
+						>
+							My Gallery
+						</button>
+						<span className='gallery_menu__bg'></span>
+					</div>
+					<div className='searchBox'>
+						<input type='text' id='search' placeholder='Pictures, people, or groups' ref={searchInput} />
+						<button type='button' className='searchBtn' onClick={showSearch}>
+							<FontAwesomeIcon icon={faMagnifyingGlass} />
+							<span className='text_hidden'>Search</span>
+						</button>
+					</div>
 				</div>
-				<div ref={frame}>
+				<div className='frame' ref={frame}>
 					<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
 						{Item.map((item, idx) => {
 							return (
@@ -102,7 +120,16 @@ function Gallery() {
 													onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 												/>
 											</p>
-											<span className='gallery_profile__id'>{item.owner}</span>
+											<span
+												className='gallery_profile__id'
+												onClick={(e) => {
+													setLoader(true);
+													frame.current.classList.remove('on');
+													fetchData({ type: 'user', user: e.target.innerText });
+												}}
+											>
+												{item.owner}
+											</span>
 											<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
 										</div>
 									</div>
