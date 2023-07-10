@@ -51,6 +51,8 @@ function Gallery() {
 					setLoader(false);
 					frame.current.classList.add('on');
 					enableEvent.current = true;
+
+					document.body.style.overflow = 'auto';
 				}
 			};
 		});
@@ -70,6 +72,8 @@ function Gallery() {
 		enableEvent.current = false;
 		setLoader(true);
 		frame.current.classList.remove('on');
+		document.body.style.overflow = 'hidden';
+		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	};
 
 	useEffect(() => {
