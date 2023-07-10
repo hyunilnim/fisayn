@@ -40,6 +40,12 @@ function Gallery() {
 		}
 
 		const result = await axios.get(url);
+
+		if (result.data.photos.photo.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			return alert('이미지 결과값이 없습니다.');
+		}
 		setItem(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
@@ -60,6 +66,9 @@ function Gallery() {
 	const showSearch = (e) => {
 		const tag = searchInput.current.value.trim();
 		if (tag === '') return alert('검색어를 입력하세요.');
+		if (!enableEvent.current) return;
+
+		resetGallery(e);
 
 		fetchData({ type: 'search', tags: tag });
 		searchInput.current.value = '';
