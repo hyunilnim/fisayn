@@ -1,15 +1,15 @@
 import axios from 'axios';
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function Gallery() {
-	const btnSet = useRef(null);
-	const enableEvent = useRef(null);
 	const frame = useRef(null);
+	const btnSet = useRef(null);
 	const searchInput = useRef(null);
+	const enableEvent = useRef(null);
 	const [Item, setItem] = useState([]);
 	const [Loader, setLoader] = useState(true);
 
@@ -40,10 +40,14 @@ function Gallery() {
 		}
 
 		const result = await axios.get(url);
-
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
+			const btnMine = btnSet.current.children;
+			btnMine[0].classList.add('on');
+			fetchData({ type: 'user', user: '198484213@N03' });
+			enableEvent.current = true;
+
 			return alert('이미지 결과값이 없습니다.');
 		}
 		setItem(result.data.photos.photo);
@@ -63,16 +67,6 @@ function Gallery() {
 			};
 		});
 	};
-	const showSearch = (e) => {
-		const tag = searchInput.current.value.trim();
-		if (tag === '') return alert('검색어를 입력하세요.');
-		if (!enableEvent.current) return;
-
-		resetGallery(e);
-
-		fetchData({ type: 'search', tags: tag });
-		searchInput.current.value = '';
-	};
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -85,6 +79,34 @@ function Gallery() {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	};
 
+	const showInterest = (e) => {
+		if (!enableEvent.current) return;
+		if (e.target.classList.contains('on')) return;
+
+		resetGallery(e);
+
+		fetchData({ type: 'interest' });
+	};
+	const showMine = (e) => {
+		if (!enableEvent.current) return;
+		if (e.target.classList.contains('on')) return;
+
+		resetGallery(e);
+
+		fetchData({ type: 'user', user: '198484213@N03' });
+	};
+
+	const showSearch = (e) => {
+		const tag = searchInput.current.value.trim();
+		if (tag === '') return alert('검색어를 입력하세요.');
+		if (!enableEvent.current) return;
+
+		resetGallery(e);
+
+		fetchData({ type: 'search', tags: tag });
+		searchInput.current.value = '';
+	};
+
 	useEffect(() => {
 		fetchData({ type: 'interest' });
 		// fetchData({ type: 'user', user: '198484213@N03' });
@@ -95,29 +117,10 @@ function Gallery() {
 			<div className='gallery_wrap'>
 				<div className='gallery_top'>
 					<div className='gallery_menu btnSet' ref={btnSet}>
-						<button
-							type='button'
-							onClick={(e) => {
-								if (!enableEvent.current) return;
-								if (e.target.classList.contains('on')) return;
-								resetGallery(e);
-								fetchData({ type: 'interest' });
-							}}
-							className='on'
-						>
+						<button type='button' onClick={showInterest} className='on'>
 							Interest Gallery
 						</button>
-						<button
-							type='button'
-							onClick={(e) => {
-								if (!enableEvent.current) return;
-								if (e.target.classList.contains('on')) return;
-								resetGallery(e);
-
-								fetchData({ type: 'user', user: '198484213@N03' });
-							}}
-							className=''
-						>
+						<button type='button' onClick={showMine} className=''>
 							My Gallery
 						</button>
 						<span className='gallery_menu__bg'></span>
