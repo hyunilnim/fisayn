@@ -4,14 +4,17 @@ import Masonry from 'react-masonry-component';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import Modal from '../common/Modal';
 
 function Gallery() {
+	const openModal = useRef(null);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
 	const enableEvent = useRef(null);
 	const [Item, setItem] = useState([]);
 	const [Loader, setLoader] = useState(true);
+	const [Index, setIndex] = useState(0);
 
 	const fetchData = async (opt) => {
 		let counter = 0;
@@ -25,6 +28,7 @@ function Gallery() {
 		const method_search = 'flickr.photos.search';
 
 		// const url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
+
 		let url = '';
 
 		if (opt.type === 'interest') {
@@ -113,75 +117,89 @@ function Gallery() {
 	}, []);
 
 	return (
-		<Layout name={'Gallery'}>
-			<div className='gallery_wrap'>
-				<div className='gallery_top'>
-					<div className='gallery_menu btnSet' ref={btnSet}>
-						<button type='button' onClick={showInterest} className='on'>
-							Interest Gallery
-						</button>
-						<button type='button' onClick={showMine} className=''>
-							My Gallery
-						</button>
-						<span className='gallery_menu__bg'></span>
+		<>
+			<Layout name={'Gallery'}>
+				<div className='gallery_wrap'>
+					<div className='gallery_top'>
+						<div className='gallery_menu btnSet' ref={btnSet}>
+							<button type='button' onClick={showInterest} className='on'>
+								Interest Gallery
+							</button>
+							<button type='button' onClick={showMine} className=''>
+								My Gallery
+							</button>
+							<span className='gallery_menu__bg'></span>
+						</div>
+						<div className='searchBox'>
+							<input type='text' id='search' placeholder='Pictures, people, or groups' ref={searchInput} />
+							<button type='button' className='searchBtn' onClick={showSearch}>
+								<FontAwesomeIcon icon={faMagnifyingGlass} />
+								<span className='text_hidden'>Search</span>
+							</button>
+						</div>
 					</div>
-					<div className='searchBox'>
-						<input type='text' id='search' placeholder='Pictures, people, or groups' ref={searchInput} />
-						<button type='button' className='searchBtn' onClick={showSearch}>
-							<FontAwesomeIcon icon={faMagnifyingGlass} />
-							<span className='text_hidden'>Search</span>
-						</button>
-					</div>
-				</div>
-				<div className='frame' ref={frame}>
-					<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
-						{Item.map((item, idx) => {
-							return (
-								<li className='item' key={idx}>
-									<div className='gallery_item'>
-										<img
-											src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
-											alt={item.title}
-											className='pic'
-										/>
-										<div className='gallery_item__profile gallery_profile'>
-											<p className='gallery_profile__img'>
-												<img
-													src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
-													alt={item.title}
-													onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
-												/>
-											</p>
-											<span
-												className='gallery_profile__id'
-												onClick={(e) => {
-													if (!enableEvent.current) return;
-													enableEvent.current = false;
-													setLoader(true);
-													frame.current.classList.remove('on');
-													fetchData({ type: 'user', user: e.target.innerText });
-												}}
-											>
-												{item.owner}
-											</span>
-											<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
+					<div className='frame' ref={frame}>
+						<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
+							{Item.map((item, idx) => {
+								return (
+									<li className='item' key={idx}>
+										<div
+											className='gallery_item'
+											onClick={() => {
+												openModal.current.openPop();
+												setIndex(idx);
+											}}
+										>
+											<img
+												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
+												alt={item.title}
+												className='pic'
+											/>
+											<div className='gallery_item__profile gallery_profile'>
+												<p className='gallery_profile__img'>
+													<img
+														src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+														alt={item.title}
+														onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+													/>
+												</p>
+												<span
+													className='gallery_profile__id'
+													onClick={(e) => {
+														if (!enableEvent.current) return;
+														enableEvent.current = false;
+														setLoader(true);
+														frame.current.classList.remove('on');
+														fetchData({ type: 'user', user: e.target.innerText });
+													}}
+												>
+													{item.owner}
+												</span>
+												<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
+											</div>
 										</div>
-									</div>
-								</li>
-							);
-						})}
-					</Masonry>
+									</li>
+								);
+							})}
+						</Masonry>
+					</div>
 				</div>
-			</div>
-			{Loader && (
-				<div className='loading'>
-					<svg className='svg-container' height='100' width='100' viewBox='0 0 100 100'>
-						<circle className='loader-svg bg' cx='50' cy='50' r='45'></circle>
-						<circle className='loader-svg animate' cx='50' cy='50' r='45'></circle>
-					</svg>
-				</div>
-			)}
-		</Layout>
+				{Loader && (
+					<div className='loading'>
+						<svg className='svg-container' height='100' width='100' viewBox='0 0 100 100'>
+							<circle className='loader-svg bg' cx='50' cy='50' r='45'></circle>
+							<circle className='loader-svg animate' cx='50' cy='50' r='45'></circle>
+						</svg>
+					</div>
+				)}
+			</Layout>
+			<Modal ref={openModal}>
+				<img
+					src={`https://live.staticflickr.com/${Item[Index]?.server}/${Item[Index]?.id}_${Item[Index]?.secret}_b.jpg`}
+					alt={Item[Index]?.title}
+				/>
+			</Modal>
+		</>
 	);
 }
 
