@@ -20,6 +20,11 @@ function Community() {
 		resetForm();
 	};
 
+	const deletePost = (delIndex) => {
+		if (!window.confirm('게시글을 삭제하시겠습니까?')) return;
+		setPosts(Posts.filter((_, idx) => idx !== delIndex));
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -32,9 +37,9 @@ function Community() {
 				<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
 				<br />
 
-				<button type='button'>cancel</button>
+				<button type='button'>CANCEL</button>
 				<button type='button' onClick={createPost}>
-					write
+					WRITE
 				</button>
 			</div>
 			<div className='showBox'>
@@ -46,7 +51,9 @@ function Community() {
 
 							<div className='board_btn'>
 								<button type='button'>EDIT</button>
-								<button type='button'>DELETE</button>
+								<button type='button' onClick={() => deletePost(idx)}>
+									DELETE
+								</button>
 							</div>
 						</article>
 					);
