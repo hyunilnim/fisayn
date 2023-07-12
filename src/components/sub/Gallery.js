@@ -1,6 +1,6 @@
-import axios from 'axios';
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -8,20 +8,21 @@ import Modal from '../common/Modal';
 
 function Gallery() {
 	const openModal = useRef(null);
+	const isUser = useRef(true);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
-	const enableEvent = useRef(null);
-	const [Item, setItem] = useState([]);
+	const enableEvent = useRef(true);
+	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
 
-	const fetchData = async (opt) => {
+	const fetchGallery = async (opt) => {
 		let counter = 0;
 		const api_key = '6c70577e2661042cd0ab587b17f6c944';
 		// const myID = '198484213@N03';
-		const num = 20;
-		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1`;
+		const num = 50;
+		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
@@ -31,30 +32,27 @@ function Gallery() {
 
 		let url = '';
 
-		if (opt.type === 'interest') {
-			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
-		}
+		if (opt.type === 'interest') url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
 
-		if (opt.type === 'user') {
+		if (opt.type === 'user')
 			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_user}&user_id=${opt.user}`;
-		}
 
-		if (opt.type === 'search') {
-			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_search}$tags=${opt.tags}`;
-		}
+		if (opt.type === 'search')
+			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_search}&tags=${opt.tags}`;
 
 		const result = await axios.get(url);
+		console.log(result.data);
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
-			btnMine[0].classList.add('on');
-			fetchData({ type: 'user', user: '198484213@N03' });
+			btnMine[1].classList.add('on');
+			fetchGallery({ type: 'user', user: '198484213@N03' });
 			enableEvent.current = true;
 
 			return alert('이미지 결과값이 없습니다.');
 		}
-		setItem(result.data.photos.photo);
+		setItems(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
 		imgs.forEach((img) => {
@@ -78,9 +76,9 @@ function Gallery() {
 		e.target.classList.add('on');
 		enableEvent.current = false;
 		setLoader(true);
-		frame.current.classList.remove('on');
 		document.body.style.overflow = 'hidden';
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+		frame.current.classList.remove('on');
 	};
 
 	const showInterest = (e) => {
@@ -89,7 +87,8 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchData({ type: 'interest' });
+		fetchGallery({ type: 'interest' });
+		isUser.current = false;
 	};
 	const showMine = (e) => {
 		if (!enableEvent.current) return;
@@ -97,7 +96,7 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchData({ type: 'user', user: '198484213@N03' });
+		fetchGallery({ type: 'user', user: '198484213@N03' });
 	};
 
 	const showSearch = (e) => {
@@ -107,13 +106,14 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchData({ type: 'search', tags: tag });
+		fetchGallery({ type: 'search', tags: tag });
 		searchInput.current.value = '';
+		isUser.current = false;
 	};
 
 	useEffect(() => {
-		fetchData({ type: 'interest' });
-		// fetchData({ type: 'user', user: '198484213@N03' });
+		// fetchGallery({ type: 'interest' });
+		fetchGallery({ type: 'user', user: '198484213@N03' });
 	}, []);
 
 	return (
@@ -122,16 +122,21 @@ function Gallery() {
 				<div className='gallery_wrap'>
 					<div className='gallery_top'>
 						<div className='gallery_menu btnSet' ref={btnSet}>
-							<button type='button' onClick={showInterest} className='on'>
+							<button type='button' onClick={showInterest} className=''>
 								Interest Gallery
 							</button>
-							<button type='button' onClick={showMine} className=''>
+							<button type='button' onClick={showMine} className='on'>
 								My Gallery
 							</button>
 							<span className='gallery_menu__bg'></span>
 						</div>
 						<div className='searchBox'>
-							<input type='text' id='search' placeholder='Pictures, people, or groups' ref={searchInput} />
+							<input
+								type='text'
+								placeholder='Pictures, people, or groups'
+								ref={searchInput}
+								onKeyPress={(e) => e.key === 'Enter' && showSearch(e)}
+							/>
 							<button type='button' className='searchBtn' onClick={showSearch}>
 								<FontAwesomeIcon icon={faMagnifyingGlass} />
 								<span className='text_hidden'>Search</span>
@@ -140,21 +145,21 @@ function Gallery() {
 					</div>
 					<div className='frame' ref={frame}>
 						<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
-							{Item.map((item, idx) => {
+							{Items.map((item, idx) => {
 								return (
 									<li className='item' key={idx}>
-										<div
-											className='gallery_item'
-											onClick={() => {
-												openModal.current.openPop();
-												setIndex(idx);
-											}}
-										>
-											<img
-												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
-												alt={item.title}
-												className='pic'
-											/>
+										<div className='gallery_item'>
+											<p className='gallery_item__pic'>
+												<img
+													src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
+													alt={item.title}
+													className='pic'
+													onClick={() => {
+														openModal.current.openPop();
+														setIndex(idx);
+													}}
+												/>
+											</p>
 											<div className='gallery_item__profile gallery_profile'>
 												<p className='gallery_profile__img'>
 													<img
@@ -166,11 +171,13 @@ function Gallery() {
 												<span
 													className='gallery_profile__id'
 													onClick={(e) => {
+														if (isUser.current) return;
+														isUser.current = true;
 														if (!enableEvent.current) return;
 														enableEvent.current = false;
 														setLoader(true);
 														frame.current.classList.remove('on');
-														fetchData({ type: 'user', user: e.target.innerText });
+														fetchGallery({ type: 'user', user: e.target.innerText });
 													}}
 												>
 													{item.owner}
@@ -195,8 +202,8 @@ function Gallery() {
 			</Layout>
 			<Modal ref={openModal}>
 				<img
-					src={`https://live.staticflickr.com/${Item[Index]?.server}/${Item[Index]?.id}_${Item[Index]?.secret}_b.jpg`}
-					alt={Item[Index]?.title}
+					src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`}
+					alt={Items[Index]?.title}
 				/>
 			</Modal>
 		</>
