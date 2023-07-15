@@ -1,8 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
+import { useRef } from 'react';
 
 // common
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import Menu from './components/common/Menu';
 
 // main
 import Main from './components/main/Main';
@@ -17,13 +19,17 @@ import Youtube from './components/sub/Youtube';
 
 //scss
 import './scss/style.scss';
+
 function App() {
+	const menu = useRef(null);
+
 	return (
 		<>
 			<Switch>
-				<Route exact path='/' component={Main} />
+				{/* header 부분 */}
+				<Route exact path='/' render={() => <Main menu={menu} />} />
 
-				<Route path='/' render={() => <Header type={'sub'} />} />
+				<Route path='/' render={() => <Header type={'sub'} menu={menu} />} />
 			</Switch>
 
 			<Route path='/department' component={Department} />
@@ -33,6 +39,7 @@ function App() {
 			<Route path='/contact' component={Contact} />
 			<Route path='/member' component={Member} />
 			<Footer />
+			<Menu ref={menu} />
 		</>
 	);
 }

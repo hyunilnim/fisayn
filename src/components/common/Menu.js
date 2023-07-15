@@ -9,7 +9,6 @@ const Menu = forwardRef((props, ref) => {
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			if (window.innerWidth >= 1200) {
-				console.log('test');
 				setOpen(false);
 			}
 		});

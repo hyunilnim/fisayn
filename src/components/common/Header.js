@@ -1,11 +1,8 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router-dom';
-import Menu from './Menu';
-import { useRef } from 'react';
 
-function Header({ type }) {
-	const toggleMenu = useRef(null);
+function Header({ type, menu }) {
 	const active = 'on';
 	return (
 		<>
@@ -52,14 +49,14 @@ function Header({ type }) {
 						type='button'
 						className='menuOpen'
 						onClick={() => {
-							toggleMenu.current.toggle();
+							menu.current.toggle();
 						}}
 					>
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>
 			</header>
-			<Menu ref={toggleMenu} />
+			{/* <Menu ref={toggleMenu} /> */}
 		</>
 	);
 }

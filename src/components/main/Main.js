@@ -5,10 +5,10 @@ import Pics from './Pics';
 import Vids from './Vids';
 import Banner from './Banner';
 
-function Main() {
+function Main({ menu }) {
 	return (
 		<main>
-			<Header type={'main'} />
+			<Header type={'main'} menu={menu} />
 			<Visual />
 			<News />
 
