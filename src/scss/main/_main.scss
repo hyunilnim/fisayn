@@ -1,5 +1,5 @@
 .intro_wrap {
-	padding: 0 10vw;
+	padding: 157px 10vw;
 
 	.intro_head_wrap {
 		display: flex;
@@ -45,7 +45,7 @@
 				margin-top: 0;
 				position: absolute;
 				top: 0;
-				animation: slide 5s 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+				// animation: slide 5s 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 			}
 			@keyframes slide {
 				0% {
@@ -92,8 +92,6 @@
 				left: 0;
 				right: 0;
 			}
-		}
-		.intro_visual__img.now {
 		}
 	}
 	.intro_bottom {

@@ -10,10 +10,11 @@ import { useState } from 'react';
 function Main({ menu }) {
 	const [Scrolled, setScrolled] = useState(0);
 	const [Pos, setPos] = useState([]);
+
 	return (
 		<main>
 			<Header type={'main'} menu={menu} />
-			<Visual />
+			<Visual Scrolled={Scrolled} Pos={Pos[0]} />
 			<Vids />
 			<News />
 

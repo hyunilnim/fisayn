@@ -1,3 +1,6 @@
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 function Vids() {
 	return (
 		<section className='myScroll'>
@@ -16,7 +19,10 @@ function Vids() {
 								<a href='/' className='work_item'>
 									<p className='work_item__num'>p / 123</p>
 									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
-									{/* <p className='work_item__title'><i className='fa-solid fa-x'></i><span>Crestron Home</span></p> */}
+									<p className='work_item__title'>
+										<FontAwesomeIcon icon={faX} />
+										<span>Crestron Home</span>
+									</p>
 									<div className='work_item__img'>
 										<img src={`${process.env.PUBLIC_URL}/img/pic1.jpeg`} alt='' className='work_img' />
 										<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' className='work_img' />
@@ -28,7 +34,7 @@ function Vids() {
 									<p className='work_item__num'>p / 123</p>
 									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
 									<p className='work_item__title'>
-										<i className='fa-solid fa-x'></i>
+										<FontAwesomeIcon icon={faX} />
 										<span>Crestron Home</span>
 									</p>
 									<div className='work_item__img'>
@@ -42,7 +48,7 @@ function Vids() {
 									<p className='work_item__num'>p / 123</p>
 									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
 									<p className='work_item__title'>
-										<i className='fa-solid fa-x'></i>
+										<FontAwesomeIcon icon={faX} />
 										<span>Crestron Home</span>
 									</p>
 									<div className='work_item__img'>
