@@ -25,6 +25,15 @@ function Community() {
 		setPosts(Posts.filter((_, idx) => idx !== delIndex));
 	};
 
+	const enableUpdate = (editIndex) => {
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (editIndex === postIndex) post.enableUpdate = true;
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -37,20 +46,42 @@ function Community() {
 				<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
 				<br />
 
-				<button type='button'>CANCEL</button>
-				<button type='button' onClick={createPost}>
-					WRITE
-				</button>
+				<div className='btnSet'>
+					<button type='button'>CANCEL</button>
+					<button type='button' onClick={createPost}>
+						WRITE
+					</button>
+				</div>
 			</div>
 			<div className='showBox'>
 				{Posts.map((post, idx) => {
 					return (
 						<article key={idx}>
-							<h2 className='board_title'>{post.title}</h2>
-							<p className='board_desc'>{post.content}</p>
+							{post.enableUpdate ? (
+								// 수정모드
+								<>
+									<div className='txt'>
+										<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} />
+										<br />
+										<textarea placeholder='본문을 입력하세요.' defaultValue={post.content}></textarea>
+									</div>
+									<nav className='btnSet'>
+										<button>CANCEL</button>
+										<button>UPDATE</button>
+									</nav>
+								</>
+							) : (
+								// 출력모드
+								<div className='txt'>
+									<h2 className='board_title'>{post.title}</h2>
+									<p className='board_desc'>{post.content}</p>
+								</div>
+							)}
 
-							<div className='board_btn'>
-								<button type='button'>EDIT</button>
+							<div className='btnSet'>
+								<button type='button' onClick={() => enableUpdate(idx)}>
+									EDIT
+								</button>
 								<button type='button' onClick={() => deletePost(idx)}>
 									DELETE
 								</button>
