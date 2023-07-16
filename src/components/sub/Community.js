@@ -2,9 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
 
 function Community() {
+	const getLocalData = () => {
+		const data = localStorage.getItem('post');
+		return JSON.parse(data);
+	};
+
 	const input = useRef(null);
 	const textarea = useRef(null);
-	const [Posts, setPosts] = useState([]);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
+	const [Posts, setPosts] = useState(getLocalData());
+	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
 		input.current.value = '';
@@ -26,6 +34,8 @@ function Community() {
 	};
 
 	const enableUpdate = (editIndex) => {
+		if (!Allowed) return;
+		setAllowed(false);
 		setPosts(
 			Posts.map((post, postIndex) => {
 				if (editIndex === postIndex) post.enableUpdate = true;
@@ -41,10 +51,29 @@ function Community() {
 				return post;
 			})
 		);
+		setAllowed(true);
+	};
+
+	const updatePost = (editIndex) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
+			return alert('수정할 제목과 본문을 모두 입력해주세요.');
+		}
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (postIndex === editIndex) {
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
+				}
+				return post;
+			})
+		);
+		setAllowed(true);
 	};
 
 	useEffect(() => {
-		console.log(Posts);
+		// console.log(Posts);
+		localStorage.setItem('post', JSON.stringify(Posts));
 	}, [Posts]);
 
 	return (
@@ -57,7 +86,9 @@ function Community() {
 				<br />
 
 				<div className='btnSet'>
-					<button type='button'>CANCEL</button>
+					<button type='button' onClick={resetForm}>
+						CANCEL
+					</button>
 					<button type='button' onClick={createPost}>
 						WRITE
 					</button>
@@ -71,13 +102,21 @@ function Community() {
 								// 수정모드
 								<>
 									<div className='txt'>
-										<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} />
+										<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
 										<br />
-										<textarea placeholder='본문을 입력하세요.' defaultValue={post.content}></textarea>
+										<textarea
+											placeholder='본문을 입력하세요.'
+											defaultValue={post.content}
+											ref={editTextarea}
+										></textarea>
 									</div>
 									<nav className='btnSet'>
-										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
-										<button>UPDATE</button>
+										<button type='button' onClick={() => disableUpdate(idx)}>
+											CANCEL
+										</button>
+										<button type='button' onClick={() => updatePost(idx)}>
+											UPDATE
+										</button>
 									</nav>
 								</>
 							) : (

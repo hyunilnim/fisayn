@@ -14,8 +14,8 @@ function Main({ menu }) {
 		<main>
 			<Header type={'main'} menu={menu} />
 			<Visual />
-			<News />
 			<Vids />
+			<News />
 
 			<Pics />
 			<Banner />
