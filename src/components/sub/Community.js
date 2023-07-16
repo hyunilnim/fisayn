@@ -34,12 +34,22 @@ function Community() {
 		);
 	};
 
+	const disableUpdate = (editIndex) => {
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (editIndex === postIndex) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
 
 	return (
 		<Layout name={'Community'}>
+			{/* 입력 */}
 			<div className='inputBox'>
 				<input type='text' placeholder='제목을 입력하세요.' ref={input} />
 				<br />
@@ -66,26 +76,27 @@ function Community() {
 										<textarea placeholder='본문을 입력하세요.' defaultValue={post.content}></textarea>
 									</div>
 									<nav className='btnSet'>
-										<button>CANCEL</button>
+										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
 										<button>UPDATE</button>
 									</nav>
 								</>
 							) : (
 								// 출력모드
-								<div className='txt'>
-									<h2 className='board_title'>{post.title}</h2>
-									<p className='board_desc'>{post.content}</p>
-								</div>
+								<>
+									<div className='txt'>
+										<h2 className='board_title'>{post.title}</h2>
+										<p className='board_desc'>{post.content}</p>
+									</div>
+									<div className='btnSet'>
+										<button type='button' onClick={() => enableUpdate(idx)}>
+											EDIT
+										</button>
+										<button type='button' onClick={() => deletePost(idx)}>
+											DELETE
+										</button>
+									</div>
+								</>
 							)}
-
-							<div className='btnSet'>
-								<button type='button' onClick={() => enableUpdate(idx)}>
-									EDIT
-								</button>
-								<button type='button' onClick={() => deletePost(idx)}>
-									DELETE
-								</button>
-							</div>
 						</article>
 					);
 				})}
