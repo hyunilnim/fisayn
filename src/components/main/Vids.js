@@ -1,5 +1,5 @@
 function Vids() {
-	return <section id='vids'>Vids</section>;
+	return <section className='myScroll'>Vids</section>;
 }
 
 export default Vids;
