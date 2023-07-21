@@ -1,7 +1,7 @@
 function Pics() {
 	return (
 		<section className='myScroll'>
-			<div className='gallery_wrap'>
+			<div className='insights_wrap'>
 				<div className='inner'>
 					<div className='head_title_wrap'>
 						<h2 className='head_title'>LATEST INSIGHTS</h2>
