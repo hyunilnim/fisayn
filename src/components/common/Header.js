@@ -38,13 +38,13 @@ function Header({ type, menu }) {
 									Contact
 								</NavLink>
 							</li>
-							<li>
-								<NavLink to='/member' activeClassName={active}>
-									Member
-								</NavLink>
-							</li>
 						</ul>
 					</nav>
+					<div className='nav_side'>
+						<NavLink to='/member' activeClassName={active}>
+							Member
+						</NavLink>
+					</div>
 					<button
 						type='button'
 						className='menuOpen'
