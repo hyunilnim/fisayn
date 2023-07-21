@@ -37,7 +37,7 @@ function News() {
 									<li key={idx}>
 										<div href='#' className='news_link'>
 											<p className='news_link__title'>{post.title}</p>
-											<p className='news_link__desc'>{post.content}</p>
+											{/* <p className='news_link__desc'>{post.content}</p> */}
 										</div>
 									</li>
 								);
