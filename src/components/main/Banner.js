@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function Banner() {
 	return (
 		<section className='myScroll'>
@@ -45,4 +47,4 @@ function Banner() {
 	);
 }
 
-export default Banner;
+export default memo(Banner);

@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function Visual({ Scrolled, Pos }) {
 	const currentPos = Scrolled - Pos;
 	const base = window.innerHeight / 3;
@@ -57,4 +59,4 @@ function Visual({ Scrolled, Pos }) {
 	);
 }
 
-export default Visual;
+export default memo(Visual);

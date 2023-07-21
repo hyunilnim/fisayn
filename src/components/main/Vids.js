@@ -1,5 +1,6 @@
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { memo } from 'react';
 
 function Vids() {
 	return (
@@ -70,4 +71,4 @@ function Vids() {
 	);
 }
 
-export default Vids;
+export default memo(Vids);
