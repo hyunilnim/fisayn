@@ -40,6 +40,7 @@ function Btns({ setScrolled, setPos }) {
 
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 
+		console.log(pos);
 		return () => {
 			window.removeEventListener('resize', getPos);
 			window.removeEventListener('scroll', activation);
