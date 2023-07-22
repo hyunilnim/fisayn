@@ -1,7 +1,7 @@
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../common/Modal';
@@ -17,7 +17,7 @@ function Gallery() {
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
 
-	const fetchGallery = async (opt) => {
+	const fetchGallery = useCallback(async (opt) => {
 		let counter = 0;
 		const api_key = '6c70577e2661042cd0ab587b17f6c944';
 		// const myID = '198484213@N03';
@@ -33,10 +33,8 @@ function Gallery() {
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
-
 		if (opt.type === 'user')
 			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_user}&user_id=${opt.user}`;
-
 		if (opt.type === 'search')
 			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_search}&tags=${opt.tags}`;
 
@@ -68,7 +66,7 @@ function Gallery() {
 				}
 			};
 		});
-	};
+	}, []);
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -90,6 +88,7 @@ function Gallery() {
 		fetchGallery({ type: 'interest' });
 		isUser.current = false;
 	};
+
 	const showMine = (e) => {
 		if (!enableEvent.current) return;
 		if (e.target.classList.contains('on')) return;
@@ -114,7 +113,7 @@ function Gallery() {
 	useEffect(() => {
 		// fetchGallery({ type: 'interest' });
 		fetchGallery({ type: 'user', user: '198484213@N03' });
-	}, []);
+	}, [fetchGallery]);
 
 	return (
 		<>
