@@ -1,5 +1,5 @@
 import Layout from '../common/Layout';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
 function Contact() {
@@ -11,13 +11,13 @@ function Contact() {
 	const inputMsg = useRef(null);
 
 	const { kakao } = window;
-	const [traffic, setTraffic] = useState(false);
-	const [index, setIndex] = useState(0);
+	const [Traffic, setTraffic] = useState(false);
+	const [Index, setIndex] = useState(0);
 
-	const [location, setLocation] = useState(null);
+	const [Location, setLocation] = useState(null);
 	const [Success, setSuccess] = useState(false);
 
-	const info = [
+	const info = useRef([
 		{
 			title: '광화문',
 			latlng: new kakao.maps.LatLng(37.57598923870742, 126.9768610125929),
@@ -39,19 +39,27 @@ function Contact() {
 			imgSize: new kakao.maps.Size(85, 85),
 			imgPos: { offset: new kakao.maps.Point(45, 80) },
 		},
-	];
+	]);
 
-	const imgSrc = info[index].imgSrc;
-	const imgSize = info[index].imgSize;
-	const imgPos = info[index].imgPos;
+	// const imgSrc = info[Index].imgSrc;
+	// const imgSize = info[Index].imgSize;
+	// const imgPos = info[Index].imgPos;
+	// const option = {
+	// 	center: info[Index].latlng,
+	// 	level: 3,
+	// };
+	// const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
 
-	const option = {
-		center: info[index].latlng,
-		level: 3,
-	};
-
-	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
-	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
+	const marker = useMemo(() => {
+		return new kakao.maps.Marker({
+			position: info.current[Index].latlng,
+			image: new kakao.maps.MarkerImage(
+				info.current[Index].imgSrc,
+				info.current[Index].imgSize,
+				info.current[Index].imgPos
+			),
+		});
+	}, [Index, kakao]);
 
 	const sendEmail = (e) => {
 		e.preventDefault();
@@ -71,30 +79,38 @@ function Contact() {
 
 	useEffect(() => {
 		container.current.innerHTML = '';
-		const mapInstance = new kakao.maps.Map(container.current, option);
+		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
 
 		marker.setMap(mapInstance);
+		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
 		setLocation(mapInstance);
-	}, [index]);
+
+		mapInstance.setZoomable(false);
+
+		const setCenter = () => {
+			mapInstance.setCenter(info.current[Index].latlng);
+		};
+
+		window.addEventListener('resize', setCenter);
+		return () => window.removeEventListener('resize', setCenter);
+	}, [Index, kakao, marker]);
 
 	useEffect(() => {
-		traffic
-			? location?.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
-			: location?.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
-	}, [traffic]);
+		Traffic
+			? Location?.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+			: Location?.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+	}, [Traffic, Location, kakao]);
 
 	return (
 		<Layout name={'Contact'}>
 			<>
 				<div className='map_wrap'>
 					<div className='branch'>
-						{/* <button className='on' type='button'>본점</button>
-					<button type='button'>서울 지점</button>
-					<button type='button'>제주 지점</button> */}
-						{info.map((el, idx) => {
+						{info.current.map((el, idx) => {
 							return (
-								<button type='button' className={idx === index ? 'on' : ''} key={idx} onClick={() => setIndex(idx)}>
+								<button type='button' key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
 									{el.title}
 								</button>
 							);
@@ -106,10 +122,10 @@ function Contact() {
 						type='button'
 						className='btnToggle'
 						onClick={() => {
-							setTraffic(!traffic);
+							setTraffic(!Traffic);
 						}}
 					>
-						{traffic ? 'TRAFFIC OFF' : 'TRAFFIC ON'}
+						{Traffic ? 'TRAFFIC OFF' : 'TRAFFIC ON'}
 					</button>
 				</div>
 
