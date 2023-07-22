@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
+import { useHistory } from 'react-router-dom';
 
 function Member() {
-	//value 초기화
-	const initVal = {
+	const selectEl = useRef(null);
+	const radioGroup = useRef(null);
+	const checkGroup = useRef(null);
+	const history = useHistory();
+	const initVal = useRef({
 		userName: '',
 		pwd1: '',
 		pwd2: '',
@@ -11,9 +15,9 @@ function Member() {
 		pos: '',
 		gender: '',
 		method: [],
-	};
+	});
 
-	const [Val, setVal] = useState(initVal);
+	const [Val, setVal] = useState(initVal.current);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
 
@@ -43,11 +47,8 @@ function Member() {
 		setVal({ ...Val, [name]: checkArr });
 	};
 
-	// form 통으로 보내는 함수
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// console.log(Val);
-		// console.log(check(Val));
 		setErr(check(Val));
 		setSubmit(true);
 	};
@@ -84,15 +85,31 @@ function Member() {
 		return errs;
 	};
 
+	const resetForm = useCallback(() => {
+		const select = selectEl.current.options[0];
+		const radios = radioGroup.current.querySelectorAll('input');
+		const checks = checkGroup.current.querySelectorAll('input');
+
+		select.selected = true;
+		radios.forEach((el) => (el.checked = false));
+		checks.forEach((el) => (el.checked = false));
+
+		setVal(initVal);
+	}, [initVal]);
+
 	useEffect(() => {
 		const len = Object.keys(Err).length;
 		if (len === 0 && Submit) {
 			alert('모든 인증을 통과 했습니다.');
+			resetForm();
 		}
-	}, [Err]);
+	}, [Err, Submit]);
 
 	return (
 		<Layout name={'Member'}>
+			<button type='button' onClick={() => history.goBack()}>
+				Go back
+			</button>
 			<div className='contact_form'>
 				<form onSubmit={handleSubmit}>
 					<fieldset>
@@ -170,7 +187,7 @@ function Member() {
 										<label htmlFor='pos'>Position</label>
 									</th>
 									<td>
-										<select name='pos' id='pos' onChange={handleSelect}>
+										<select name='pos' id='pos' onChange={handleSelect} ref={selectEl}>
 											<option value=''>Select your position</option>
 											<option value='opt1'>Information technology manager</option>
 											<option value='opt2'>Product manager</option>
@@ -183,7 +200,7 @@ function Member() {
 
 								<tr>
 									<th scope='row'>Gender</th>
-									<td>
+									<td ref={radioGroup}>
 										<input type='radio' name='gender' id='male' onChange={handleRadio} />
 										<label htmlFor='male'>Male</label>
 
@@ -197,34 +214,29 @@ function Member() {
 								<tr>
 									<th scope='row'>Preferred Contact Method</th>
 									<td>
-										<ul className='checkboxList'>
-											<li>
-												<input
-													type='checkbox'
-													name='method'
-													id='method-email'
-													value='method-email'
-													onChange={handleCheck}
-												/>
-												<label htmlFor='method-email'>Email</label>
-											</li>
-											<li>
-												<input type='checkbox' name='method' id='phone' value='phone' onChange={handleCheck} />
-												<label htmlFor='phone'>Phone Call</label>
-											</li>
-											<li>
-												<input type='checkbox' name='method' id='sms' value='sms' onChange={handleCheck} />
-												<label htmlFor='sms'>Text Message (SMS)</label>
-											</li>
-											<li>
-												<input type='checkbox' name='method' id='zoom' value='zoom' onChange={handleCheck} />
-												<label htmlFor='zoom'>Zoom Meeting</label>
-											</li>
-											<li>
-												<input type='checkbox' name='method' id='other' value='other' onChange={handleCheck} />
-												<label htmlFor='other'>Other</label>
-											</li>
-										</ul>
+										<div className='checkboxList' ref={checkGroup}>
+											<input
+												type='checkbox'
+												name='method'
+												id='method-email'
+												value='method-email'
+												onChange={handleCheck}
+											/>
+											<label htmlFor='method-email'>Email</label>
+											<br />
+											<input type='checkbox' name='method' id='phone' value='phone' onChange={handleCheck} />
+											<label htmlFor='phone'>Phone Call</label>
+											<br />
+											<input type='checkbox' name='method' id='sms' value='sms' onChange={handleCheck} />
+											<label htmlFor='sms'>Text Message (SMS)</label>
+											<br />
+											<input type='checkbox' name='method' id='zoom' value='zoom' onChange={handleCheck} />
+											<label htmlFor='zoom'>Zoom Meeting</label>
+											<br />
+											<input type='checkbox' name='method' id='other' value='other' onChange={handleCheck} />
+											<label htmlFor='other'>Other</label>
+											<br />
+										</div>
 										<br />
 										{Err.method && <p>{Err.method}</p>}
 									</td>
