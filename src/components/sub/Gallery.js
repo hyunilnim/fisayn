@@ -154,7 +154,7 @@ function Gallery() {
 													alt={item.title}
 													className='pic'
 													onClick={() => {
-														openModal.current.openPop();
+														openModal.current?.openPop();
 														setIndex(idx);
 													}}
 												/>
