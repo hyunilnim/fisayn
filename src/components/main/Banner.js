@@ -1,4 +1,20 @@
 import { memo } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+function BtnRolling() {
+	return (
+		<ul className='controls'>
+			<li>
+				<button type='button'></button>
+			</li>
+		</ul>
+	);
+}
 
 function Banner() {
 	return (
@@ -19,27 +35,33 @@ function Banner() {
 					</div>
 					<div id='' className='about_img_wrap'>
 						<div id='visual'>
-							<div className='swiper-wrapper'>
-								<article data-slide='1' className='swiper-slide'>
+							<Swiper
+								modules={[Autoplay, Pagination, Navigation]}
+								loop={true}
+								autoplay={{ delay: 2000, disableOnInteraction: true }}
+								pagination={{ clickable: true }}
+								navigation={true}
+							>
+								<SwiperSlide data-slide='1'>
 									<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' />
-								</article>
-								<article data-slide='2' className='swiper-slide'>
+								</SwiperSlide>
+								<SwiperSlide data-slide='2'>
 									<img src={`${process.env.PUBLIC_URL}/img/pic1.jpeg`} alt='' />
-								</article>
-								<article data-slide='3' className='swiper-slide'>
+								</SwiperSlide>
+								<SwiperSlide data-slide='3'>
 									<img src={`${process.env.PUBLIC_URL}/img/contact.jpg`} alt='' />
-								</article>
-								<article data-slide='4' className='swiper-slide'>
+								</SwiperSlide>
+								<SwiperSlide data-slide='4'>
 									<img src={`${process.env.PUBLIC_URL}/img/team.jpeg`} alt='' />
-								</article>
-							</div>
+								</SwiperSlide>
+							</Swiper>
 						</div>
-						<div className='swiper-option'>
+						{/* <div className='swiper-option'>
 							<div className='swiper-button-prev'></div>
 							<div className='swiper-button-next'></div>
 							<span className='btnPlay on'>play</span>
 							<span className='btnPause'>pause</span>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

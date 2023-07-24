@@ -15,10 +15,9 @@ function Main({ menu }) {
 		<main>
 			<Header type={'main'} menu={menu} />
 			<Visual Scrolled={Scrolled} Pos={Pos[0]} />
-			<Vids />
-			<News />
-
 			<Pics />
+			<News />
+			<Vids />
 			<Banner />
 			<Btns setScrolled={setScrolled} setPos={setPos} />
 		</main>
