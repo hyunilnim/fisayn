@@ -1,72 +1,25 @@
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
-import axios from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../common/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGallery } from '../../redux/gallerySlice';
 
 function Gallery() {
+	const dispatch = useDispatch();
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
 	const enableEvent = useRef(true);
-	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
-
-	const fetchGallery = useCallback(async (opt) => {
-		let counter = 0;
-		const api_key = '6c70577e2661042cd0ab587b17f6c944';
-		// const myID = '198484213@N03';
-		const num = 50;
-		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
-
-		const method_interest = 'flickr.interestingness.getList';
-		const method_user = 'flickr.people.getPhotos';
-		const method_search = 'flickr.photos.search';
-
-		// const url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
-
-		let url = '';
-
-		if (opt.type === 'interest') url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_interest}`;
-		if (opt.type === 'user')
-			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_user}&user_id=${opt.user}`;
-		if (opt.type === 'search')
-			url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_search}&tags=${opt.tags}`;
-
-		const result = await axios.get(url);
-		console.log(result.data);
-		if (result.data.photos.photo.length === 0) {
-			setLoader(false);
-			frame.current.classList.add('on');
-			const btnMine = btnSet.current.children;
-			btnMine[1].classList.add('on');
-			fetchGallery({ type: 'user', user: '198484213@N03' });
-			enableEvent.current = true;
-
-			return alert('이미지 결과값이 없습니다.');
-		}
-		setItems(result.data.photos.photo);
-
-		const imgs = frame.current.querySelectorAll('img');
-		imgs.forEach((img) => {
-			img.onload = () => {
-				++counter;
-
-				if (counter === imgs.length - 2) {
-					setLoader(false);
-					frame.current.classList.add('on');
-					enableEvent.current = true;
-
-					document.body.style.overflow = 'auto';
-				}
-			};
-		});
-	}, []);
+	const counter = useRef(0);
+	const Items = useSelector((store) => store.gallery.data);
+	const firstLoaded = useRef(true);
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -85,7 +38,7 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchGallery({ type: 'interest' });
+		dispatch(fetchGallery({ type: 'interest' }));
 		isUser.current = false;
 	};
 
@@ -95,7 +48,7 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchGallery({ type: 'user', user: '198484213@N03' });
+		dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
 	};
 
 	const showSearch = (e) => {
@@ -105,15 +58,37 @@ function Gallery() {
 
 		resetGallery(e);
 
-		fetchGallery({ type: 'search', tags: tag });
+		dispatch(fetchGallery({ type: 'search', tags: tag }));
 		searchInput.current.value = '';
 		isUser.current = false;
 	};
 
 	useEffect(() => {
-		// fetchGallery({ type: 'interest' });
-		fetchGallery({ type: 'user', user: '198484213@N03' });
-	}, [fetchGallery]);
+		counter.current = 0;
+		if (Items.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			const btnMine = btnSet.current.children;
+			btnMine[1].classList.add('on');
+			dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
+			enableEvent.current = true;
+			return alert('이미지 결과값이 없습니다.');
+		}
+
+		firstLoaded.current = false;
+		const imgs = frame.current.querySelectorAll('img');
+		imgs.forEach((img) => {
+			img.onload = () => {
+				++counter.current;
+				if (counter.current === imgs.length - 2) {
+					setLoader(false);
+					frame.current.classList.add('on');
+					enableEvent.current = true;
+					document.body.style.overflow = 'auto';
+				}
+			};
+		});
+	}, [Items, dispatch]);
 
 	return (
 		<>
@@ -176,7 +151,7 @@ function Gallery() {
 														enableEvent.current = false;
 														setLoader(true);
 														frame.current.classList.remove('on');
-														fetchGallery({ type: 'user', user: e.target.innerText });
+														dispatch(fetchGallery({ type: 'user', user: e.target.innerText }));
 													}}
 												>
 													{item.owner}
