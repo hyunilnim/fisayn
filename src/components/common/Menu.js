@@ -1,32 +1,22 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
-const Menu = forwardRef((props, ref) => {
+function Menu() {
 	const active = { color: 'aqua' };
-	const [Open, setOpen] = useState(false);
+	const dispatch = useDispatch();
+	const menu = useSelector((store) => store.menu.open);
 
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			if (window.innerWidth >= 1200) {
-				setOpen(false);
-			}
-		});
-	}, []);
-
-	useImperativeHandle(ref, () => {
-		return { toggle: () => setOpen(!Open) };
-	});
 	return (
 		<>
 			<AnimatePresence>
-				{Open && (
+				{menu && (
 					<motion.nav
 						id='mobileMenu'
 						initial={{ x: -280 }}
 						animate={{ x: 0, transition: { duration: 0.3 } }}
 						exit={{ opacity: 0, x: -280, transition: { duration: 0.3 } }}
-						onClick={() => setOpen(false)}
+						onClick={() => dispatch(false)}
 					>
 						<h1>
 							<Link to='/'>LOGO</Link>
@@ -68,6 +58,6 @@ const Menu = forwardRef((props, ref) => {
 			</AnimatePresence>
 		</>
 	);
-});
+}
 
 export default Menu;
