@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 // common
 import Header from './components/common/Header';
@@ -20,8 +20,17 @@ import Youtube from './components/sub/Youtube';
 //scss
 import './scss/style.scss';
 
+//redux
+import { fetchYoutube } from './redux/youtubeSlice';
+import { useDispatch } from 'react-redux';
+
 function App() {
 	const menu = useRef(null);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchYoutube());
+	}, [dispatch]);
 
 	return (
 		<>
