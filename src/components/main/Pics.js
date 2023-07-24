@@ -1,8 +1,13 @@
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 
 function Pics() {
+	// console.log(useSelector((store) => store));
+	const Pics = useSelector((store) => store.gallery.data);
+	console.log(Pics);
+
 	return (
 		<section className='myScroll'>
 			<div className='work_wrap'>

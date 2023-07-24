@@ -19,7 +19,7 @@ export const fetchGallery = createAsyncThunk('gallery/requestGallery', async (op
 		url = `${baseURL}&api_key=${api_key}&per_page=${num}&method=${method_search}&tags=${opt.tags}`;
 
 	const response = await axios.get(url);
-	return response.data.items;
+	return response.data.photos.photo;
 });
 
 const gallerySlice = createSlice({

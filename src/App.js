@@ -33,7 +33,7 @@ function App() {
 	useEffect(() => {
 		dispatch(fetchYoutube());
 		dispatch(fetchDepartment());
-		dispatch(fetchGallery());
+		dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
 	}, [dispatch]);
 
 	return (
