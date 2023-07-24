@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Layout from '../common/Layout';
-import axios from 'axios';
 
 function Department() {
-	const [members, setMembers] = useState([]);
+	const Members = useSelector((store) => store.department.data);
 
-	useEffect(() => {
-		axios.get(`${process.env.PUBLIC_URL}/DB/members.json`).then((data) => {
-			// console.log(data);
-			setMembers(data.data.members);
-		});
-	}, []);
 	return (
 		<Layout name={'Department'}>
 			<ul className='member_list'>
-				{members.map((data, idx) => {
+				{Members.map((data, idx) => {
 					return (
 						<li className='member_item'>
 							<div className='member_item__info'>
