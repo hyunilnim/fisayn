@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 // common
 import Header from './components/common/Header';
@@ -27,7 +27,6 @@ import { fetchGallery } from './redux/gallerySlice';
 import { useDispatch } from 'react-redux';
 
 function App() {
-	const menu = useRef(null);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -40,9 +39,9 @@ function App() {
 		<>
 			<Switch>
 				{/* header 부분 */}
-				<Route exact path='/' render={() => <Main menu={menu} />} />
+				<Route exact path='/' render={() => <Main />} />
 
-				<Route path='/' render={() => <Header type={'sub'} menu={menu} />} />
+				<Route path='/' render={() => <Header type={'sub'} />} />
 			</Switch>
 
 			<Route path='/department' component={Department} />
@@ -52,7 +51,7 @@ function App() {
 			<Route path='/contact' component={Contact} />
 			<Route path='/member' component={Member} />
 			<Footer />
-			<Menu ref={menu} />
+			<Menu />
 		</>
 	);
 }
