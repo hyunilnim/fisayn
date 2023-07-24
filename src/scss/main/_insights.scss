@@ -31,7 +31,7 @@
 				flex: 1;
 				width: calc(100% / 3);
 				border-left: 1px solid $primary-color;
-				transform: translateY(100px);
+				// transform: translateY(100px);
 				opacity: 0;
 				transition: 0.4s ease-in-out;
 
@@ -129,7 +129,7 @@
 }
 
 .on {
-	.gallery_wrap {
+	.insights_wrap {
 		.head_title_wrap {
 			.head_title {
 				transform: scaleY(1);
@@ -139,7 +139,7 @@
 		.gallery_list_wrap {
 			li {
 				opacity: 1;
-				transform: translateY(0);
+				// transform: translateY(0);
 
 				@for $i from 1 through 3 {
 					&:nth-of-type(#{$i}) {
@@ -152,11 +152,11 @@
 }
 
 @media screen and (max-width: $tablet) {
-	.gallery_wrap {
+	.insights_wrap {
 		margin-top: 100px;
 		margin-bottom: 100px;
 	}
-	.gallery_wrap .head_title_wrap {
+	.insights_wrap .head_title_wrap {
 		display: block;
 
 		.head_title {
@@ -166,7 +166,7 @@
 			margin-top: 30px;
 		}
 	}
-	.gallery_wrap .gallery_list_wrap .gallery_list {
+	.insights_wrap .gallery_list_wrap .gallery_list {
 		display: block;
 		li {
 			width: 100%;
@@ -185,7 +185,7 @@
 }
 
 @media screen and (max-width: $mobile) {
-	.gallery_wrap .head_title_wrap {
+	.insights_wrap .head_title_wrap {
 		display: block;
 
 		.head_title {
@@ -195,7 +195,7 @@
 			margin-top: 30px;
 		}
 	}
-	.gallery_wrap .gallery_list_wrap .gallery_list li {
+	.insights_wrap .gallery_list_wrap .gallery_list li {
 		border-left: 0;
 
 		&:nth-child(3n + 3) {

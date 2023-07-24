@@ -28,7 +28,7 @@
 
 	.work_list_wrap {
 		margin-top: 10vw;
-		transform: translateY(300px);
+		// transform: translateY(300px);
 		opacity: 0;
 		transition: 0.4s ease-in-out;
 
@@ -130,7 +130,7 @@
 			}
 		}
 		.work_list_wrap {
-			transform: translateY(0);
+			// transform: translateY(0);
 			opacity: 1;
 			transition-delay: 0.8s;
 		}

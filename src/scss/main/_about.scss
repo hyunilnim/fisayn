@@ -44,7 +44,7 @@
 	}
 	.about_img_wrap {
 		opacity: 0;
-		transform: translateX(100px);
+		// transform: translateX(100px);
 		transition: 0.5s ease-in-out;
 		transition-delay: 0.7s;
 		transition-duration: 0.7s;
@@ -289,7 +289,7 @@
 		}
 		.about_img_wrap {
 			opacity: 1;
-			transform: translateX(0);
+			// transform: translateX(0);
 		}
 	}
 }

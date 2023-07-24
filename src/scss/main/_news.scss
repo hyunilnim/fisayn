@@ -28,7 +28,7 @@
 		flex: 1;
 		width: calc(50% - 8px);
 		margin-left: 8px;
-		transform: translateY(200px);
+		// transform: translateY(200px);
 		opacity: 0;
 		transition: 0.5s ease-in-out;
 
@@ -100,7 +100,7 @@
 
 	.news_list_wrap {
 		opacity: 1;
-		transform: translateY(0);
+		// transform: translateY(0);
 		transition-delay: 0.4s;
 	}
 }
