@@ -1,6 +1,6 @@
 import Layout from '../common/Layout';
-import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Modal from '../common/Modal';
 
 // youtube api 연동하기
@@ -11,24 +11,14 @@ import Modal from '../common/Modal';
 
 function Youtube() {
 	const modal = useRef(null);
-	const [Video, setVideo] = useState([]);
 	const [Index, setIndex] = useState(0);
-	const fetchYoutube = async () => {
-		const key = 'AIzaSyC4TpEbx2d9lOtjiVQIg3b6wA6ZKKrDL7c';
-		const list = 'PLQZTVbf9_qAn_Nwrz2maZG64AaEBcFZfb';
-		const num = 10;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${list}&key=${key}&maxResults=${num}`;
-		const result = await axios.get(url);
-		setVideo(result.data.items);
-	};
-	useEffect(() => {
-		fetchYoutube();
-	}, []);
+	const Vids = useSelector((store) => store.youtube.data);
+
 	return (
 		<>
 			<Layout name={'Youtube'}>
 				<ul className='gallery_list'>
-					{Video.map((video, idx) => {
+					{Vids.map((video, idx) => {
 						return (
 							<li key={idx}>
 								<div className='gallery_item'>
@@ -73,8 +63,8 @@ function Youtube() {
 			</Layout>
 			<Modal ref={modal}>
 				<iframe
-					title={Video[Index]?.id}
-					src={`https://www.youtube.com/embed/${Video[Index]?.snippet.resourceId.videoId}`}
+					title={Vids[Index]?.id}
+					src={`https://www.youtube.com/embed/${Vids[Index]?.snippet.resourceId.videoId}`}
 				></iframe>
 				유튜브컨텐츠
 			</Modal>
