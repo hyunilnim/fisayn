@@ -1,16 +1,43 @@
-import { memo } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { memo, useRef } from 'react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 function BtnRolling() {
+	const btnStart = useRef(null);
+	const btnStop = useRef(null);
+	const swiper = useSwiper();
 	return (
 		<ul className='controls'>
 			<li>
-				<button type='button'></button>
+				<button type='button'>
+					<FontAwesomeIcon
+						icon={faPlay}
+						ref={btnStart}
+						onClick={() => {
+							btnStart.current.classList.add('on');
+							btnStop.current.classList.remove('on');
+							swiper.autoplay.start();
+						}}
+					/>
+				</button>
+			</li>
+			<li>
+				<button type='button'>
+					<FontAwesomeIcon
+						icon={faPause}
+						ref={btnStop}
+						onClick={() => {
+							btnStop.current.classList.add('on');
+							btnStart.current.classList.remove('on');
+							swiper.autoplay.stop();
+						}}
+					/>
+				</button>
 			</li>
 		</ul>
 	);
@@ -34,34 +61,33 @@ function Banner() {
 						</p>
 					</div>
 					<div id='' className='about_img_wrap'>
-						<div id='visual'>
-							<Swiper
-								modules={[Autoplay, Pagination, Navigation]}
-								loop={true}
-								autoplay={{ delay: 2000, disableOnInteraction: true }}
-								pagination={{ clickable: true }}
-								navigation={true}
-							>
-								<SwiperSlide data-slide='1'>
-									<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' />
-								</SwiperSlide>
-								<SwiperSlide data-slide='2'>
-									<img src={`${process.env.PUBLIC_URL}/img/pic1.jpeg`} alt='' />
-								</SwiperSlide>
-								<SwiperSlide data-slide='3'>
-									<img src={`${process.env.PUBLIC_URL}/img/contact.jpg`} alt='' />
-								</SwiperSlide>
-								<SwiperSlide data-slide='4'>
-									<img src={`${process.env.PUBLIC_URL}/img/team.jpeg`} alt='' />
-								</SwiperSlide>
-							</Swiper>
-						</div>
 						{/* <div className='swiper-option'>
-							<div className='swiper-button-prev'></div>
-							<div className='swiper-button-next'></div>
-							<span className='btnPlay on'>play</span>
-							<span className='btnPause'>pause</span>
-						</div> */}
+								<div className='swiper-button-prev'></div>
+								<div className='swiper-button-next'></div>
+								<span className='btnPlay on'>play</span>
+								<span className='btnPause'>pause</span>
+							</div> */}
+						<Swiper
+							modules={[Autoplay, Pagination, Navigation]}
+							loop={true}
+							autoplay={{ delay: 2000, disableOnInteraction: true }}
+							pagination={{ clickable: true }}
+							navigation={true}
+						>
+							<BtnRolling />
+							<SwiperSlide data-slide='1'>
+								<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' />
+							</SwiperSlide>
+							<SwiperSlide data-slide='2'>
+								<img src={`${process.env.PUBLIC_URL}/img/pic1.jpeg`} alt='' />
+							</SwiperSlide>
+							<SwiperSlide data-slide='3'>
+								<img src={`${process.env.PUBLIC_URL}/img/contact.jpg`} alt='' />
+							</SwiperSlide>
+							<SwiperSlide data-slide='4'>
+								<img src={`${process.env.PUBLIC_URL}/img/team.jpeg`} alt='' />
+							</SwiperSlide>
+						</Swiper>
 					</div>
 				</div>
 			</div>
