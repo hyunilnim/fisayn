@@ -16,7 +16,7 @@ function Main() {
 			<Header type={'main'} />
 			<Visual Scrolled={Scrolled} Pos={Pos[0]} />
 			<Pics />
-			<News />
+			<News Scrolled={Scrolled} Pos={Pos[2]} />
 			<Vids />
 			<Banner />
 			<Btns setScrolled={setScrolled} setPos={setPos} />

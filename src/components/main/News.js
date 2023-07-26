@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 
-function News() {
+function News({ Scrolled, Pos }) {
 	const dummy = [
 		{ title: 'Hello6', content: 'Here comes description in detail.' },
 		{ title: 'Hello5', content: 'Here comes description in detail.' },
@@ -15,6 +15,7 @@ function News() {
 		else return dummy;
 	};
 	const [Posts] = useState(getLocalData());
+	const currentPos = Scrolled - Pos;
 
 	useEffect(() => {
 		localStorage.setItem('post', JSON.stringify(Posts));
@@ -23,10 +24,8 @@ function News() {
 	return (
 		<section id='news' className='news_wrap myScroll'>
 			<div className='inner'>
-				<h2 className='head_title'>
-					<span>WHAT WE'RE </span>
-					<br />
-					<span>POSTING</span>
+				<h2 style={{ transform: `translateX(${currentPos}px)` }} className='head_title'>
+					WHAT WE'RE POSTING WHAT WE'RE POSTING
 				</h2>
 				<div className='news_list_wrap'>
 					<div className='news_list'>
