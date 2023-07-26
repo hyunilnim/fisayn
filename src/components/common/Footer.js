@@ -6,6 +6,13 @@ import { faEnvelope, faShareNodes } from '@fortawesome/free-solid-svg-icons';
 function Footer() {
 	const Department = useSelector((store) => store.department.data);
 
+	const scrollToTop = () => {
+		window.scroll({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+
 	return (
 		<footer id='footer'>
 			{/* <div className='inner footer_wrap'>
@@ -67,7 +74,7 @@ function Footer() {
 							</p>
 						</div>
 					</div>
-					<button type='button' className='footer_top__btn btn_totop'>
+					<button type='button' className='footer_top__btn btn_totop' onClick={scrollToTop}>
 						Back to top
 					</button>
 				</div>
