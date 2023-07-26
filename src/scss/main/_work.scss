@@ -12,7 +12,6 @@
 
 		.head_title {
 			display: inline-block;
-			font-size: 10vw;
 			transform: scaleY(0);
 			transform-origin: bottom center;
 			opacity: 0;
@@ -34,8 +33,10 @@
 
 		.work_list {
 			display: flex;
+			flex-wrap: wrap;
+
 			li {
-				flex: 1;
+				flex: 1 33.33%;
 				width: calc(100% / 3);
 				border-left: 1px solid $primary-color;
 				padding: 0 30px;

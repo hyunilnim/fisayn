@@ -21,7 +21,29 @@ function Pics() {
 
 					<div className='work_list_wrap'>
 						<ul className='work_list'>
-							<li>
+							{Pics.map((pic, idx) => {
+								if (idx >= 6) return null;
+								return (
+									<li key={idx}>
+										<a href='/' className='work_item'>
+											<p className='work_item__num'>p / 123</p>
+											<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
+											<p className='work_item__title'>
+												<FontAwesomeIcon icon={faX} />
+												<span>Crestron Home</span>
+											</p>
+											<div className='work_item__img'>
+												<img
+													src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`}
+													alt={pic.title}
+												/>
+											</div>
+										</a>
+									</li>
+								);
+							})}
+
+							{/* <li>
 								<a href='/' className='work_item'>
 									<p className='work_item__num'>p / 123</p>
 									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
@@ -34,8 +56,8 @@ function Pics() {
 										<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' className='work_img' />
 									</div>
 								</a>
-							</li>
-							<li>
+							</li> */}
+							{/* <li>
 								<a href='/' className='work_item'>
 									<p className='work_item__num'>p / 123</p>
 									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
@@ -62,7 +84,7 @@ function Pics() {
 										<img src={`${process.env.PUBLIC_URL}/img/pic6.jpeg`} alt='' className='work_img' />
 									</div>
 								</a>
-							</li>
+							</li> */}
 						</ul>
 					</div>
 					<p className='btn_wrap'>
