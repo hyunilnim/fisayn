@@ -106,7 +106,7 @@ function Member() {
 	}, [Err, Submit]);
 
 	return (
-		<Layout name={'Member'}>
+		<Layout name={'Member'} txt={`Let's-Work-Together`}>
 			<button type='button' onClick={() => history.goBack()}>
 				Go back
 			</button>
