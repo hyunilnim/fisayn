@@ -129,17 +129,22 @@ function Contact() {
 					</button>
 				</div>
 
-				<div id='formBox'>
+				<div id='formBox' className='contactMail'>
 					<form ref={form} onSubmit={sendEmail}>
-						<label>Name</label>
-						<input type='text' name='user_name' ref={inputName} />
-						<label>Email</label>
-						<input type='email' name='user_email' ref={inputEmail} />
-						<label>Message</label>
-						<textarea name='message' ref={inputMsg} />
-						<input type='submit' value='Send' />
+						<h2>Send a Message</h2>
+						<div className='mailForm'>
+							{/* <label>Name</label> */}
+							<input type='text' name='user_name' placeholder='Name' ref={inputName} />
+							{/* <label>Email</label> */}
+							<input type='email' name='user_email' placeholder='Email' ref={inputEmail} />
+							{/* <label>Message</label> */}
+							<textarea name='message' placeholder='Message' ref={inputMsg} />
+						</div>
+						<div className='mailForm_btn'>
+							<input type='submit' value='Send' />
+						</div>
 					</form>
-					{Success && <p>메일이 성공적으로 발송되었습니다.</p>}
+					{Success && <p className='contactMail_alert'>메일이 성공적으로 발송되었습니다.</p>}
 				</div>
 			</>
 		</Layout>
