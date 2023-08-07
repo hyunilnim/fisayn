@@ -1,30 +1,16 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { toggle } from '../../redux/menuSlice';
+import { useGlobalData } from '../../hooks/useGlobalContext';
 
 function Header({ type }) {
-	const dispatch = useDispatch();
 	const active = 'on';
+	const { MenuOpen, setMenuOpen } = useGlobalData();
 	const [Position, setPosition] = useState(0);
-
-	// let lastScroll = document.documentElement.scrollTop || 0;
-	// let scrollTop = document.documentElement.scrollTop;
-	// if (scrollTop > lastScroll) {
-	// 	// down
-	// 	header.classList.add('scrollDown');
-	// } else {
-	// 	//up
-	// 	header.classList.remove('scrollDown');
-	// }
-	// lastScroll = scrollTop;
-
 	const updateScroll = () => {
 		setPosition(window.scrollY || document.documentElement.scrollTop);
 	};
-
 	useEffect(() => {
 		window.addEventListener('scroll', updateScroll);
 	}, []);
@@ -74,7 +60,7 @@ function Header({ type }) {
 						type='button'
 						className='menuOpen'
 						onClick={() => {
-							dispatch(toggle());
+							setMenuOpen(!MenuOpen);
 						}}
 					>
 						<FontAwesomeIcon icon={faBars} />
