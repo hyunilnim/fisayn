@@ -26,7 +26,12 @@ import { fetchDepartment } from './redux/departmentSlice';
 import { fetchGallery } from './redux/gallerySlice';
 import { useDispatch } from 'react-redux';
 
+//react-query
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 function App() {
+	const queryClient = new QueryClient();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -36,7 +41,7 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<>
+		<QueryClientProvider client={queryClient}>
 			<Switch>
 				{/* header 부분 */}
 				<Route exact path='/' render={() => <Main />} />
@@ -52,7 +57,8 @@ function App() {
 			<Route path='/member' component={Member} />
 			<Footer />
 			<Menu />
-		</>
+			<ReactQueryDevtools />
+		</QueryClientProvider>
 	);
 }
 
