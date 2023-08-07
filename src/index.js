@@ -6,13 +6,11 @@ import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import departmentReducer from './redux/departmentSlice';
-import galleryReducer from './redux/gallerySlice';
 import menuReducer from './redux/menuSlice';
 
 const store = configureStore({
 	reducer: {
 		department: departmentReducer,
-		gallery: galleryReducer,
 		menu: menuReducer,
 	},
 });

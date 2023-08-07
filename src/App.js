@@ -21,9 +21,6 @@ import Youtube from './components/sub/Youtube';
 import './scss/style.scss';
 
 //redux
-import { fetchDepartment } from './redux/departmentSlice';
-import { fetchGallery } from './redux/gallerySlice';
-import { useDispatch } from 'react-redux';
 
 //react-query
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
@@ -31,12 +28,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
 	const queryClient = new QueryClient();
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(fetchDepartment());
-		dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
-	}, [dispatch]);
 
 	return (
 		<QueryClientProvider client={queryClient}>

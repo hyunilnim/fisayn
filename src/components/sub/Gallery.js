@@ -4,11 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../common/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGallery } from '../../redux/gallerySlice';
+import { useGalleryQuery } from '../../hooks/useGalleryQuery';
 
 function Gallery() {
-	const dispatch = useDispatch();
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const frame = useRef(null);
@@ -18,8 +16,10 @@ function Gallery() {
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
 	const counter = useRef(0);
-	const Items = useSelector((store) => store.gallery.data);
+
 	const firstLoaded = useRef(true);
+	const [Opt, setOpt] = useState({ type: 'user', user: '198484213@N03' });
+	const { data: Items, isSuccess } = useGalleryQuery(Opt);
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -38,7 +38,7 @@ function Gallery() {
 
 		resetGallery(e);
 
-		dispatch(fetchGallery({ type: 'interest' }));
+		setOpt({ type: 'interest' });
 		isUser.current = false;
 	};
 
@@ -48,7 +48,7 @@ function Gallery() {
 
 		resetGallery(e);
 
-		dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
+		setOpt({ type: 'user', user: '198484213@N03' });
 	};
 
 	const showSearch = (e) => {
@@ -58,19 +58,19 @@ function Gallery() {
 
 		resetGallery(e);
 
-		dispatch(fetchGallery({ type: 'search', tags: tag }));
+		setOpt({ type: 'search', tags: tag });
 		searchInput.current.value = '';
 		isUser.current = false;
 	};
 
 	useEffect(() => {
 		counter.current = 0;
-		if (Items.length === 0) {
+		if (isSuccess && Items.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
 			btnMine[1].classList.add('on');
-			dispatch(fetchGallery({ type: 'user', user: '198484213@N03' }));
+			setOpt({ type: 'user', user: '198484213@N03' });
 			enableEvent.current = true;
 			return alert('이미지 결과값이 없습니다.');
 		}
@@ -88,7 +88,7 @@ function Gallery() {
 				}
 			};
 		});
-	}, [Items, dispatch]);
+	}, [isSuccess, Items]);
 
 	return (
 		<>
@@ -119,49 +119,54 @@ function Gallery() {
 					</div>
 					<div className='frame' ref={frame}>
 						<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
-							{Items.map((item, idx) => {
-								return (
-									<li className='item' key={idx}>
-										<div className='gallery_item'>
-											<p className='gallery_item__pic'>
-												<img
-													src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
-													alt={item.title}
-													className='pic'
-													onClick={() => {
-														openModal.current?.openPop();
-														setIndex(idx);
-													}}
-												/>
-											</p>
-											<div className='gallery_item__profile gallery_profile'>
-												<p className='gallery_profile__img'>
+							{isSuccess &&
+								Items.map((item, idx) => {
+									return (
+										<li className='item' key={idx}>
+											<div className='gallery_item'>
+												<p className='gallery_item__pic'>
 													<img
-														src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+														src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_w.jpg`}
 														alt={item.title}
-														onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+														className='pic'
+														onClick={() => {
+															openModal.current?.openPop();
+															setIndex(idx);
+														}}
 													/>
 												</p>
-												<span
-													className='gallery_profile__id'
-													onClick={(e) => {
-														if (isUser.current) return;
-														isUser.current = true;
-														if (!enableEvent.current) return;
-														enableEvent.current = false;
-														setLoader(true);
-														frame.current.classList.remove('on');
-														dispatch(fetchGallery({ type: 'user', user: e.target.innerText }));
-													}}
-												>
-													{item.owner}
-												</span>
-												<p className='gallery_profile__title'>{item.title === '' ? 'Have a good day !' : item.title}</p>
+												<div className='gallery_item__profile gallery_profile'>
+													<p className='gallery_profile__img'>
+														<img
+															src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+															alt={item.title}
+															onError={(e) =>
+																e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')
+															}
+														/>
+													</p>
+													<span
+														className='gallery_profile__id'
+														onClick={(e) => {
+															if (isUser.current) return;
+															isUser.current = true;
+															if (!enableEvent.current) return;
+															enableEvent.current = false;
+															setLoader(true);
+															frame.current.classList.remove('on');
+															setOpt({ type: 'user', user: e.target.innerText });
+														}}
+													>
+														{item.owner}
+													</span>
+													<p className='gallery_profile__title'>
+														{item.title === '' ? 'Have a good day !' : item.title}
+													</p>
+												</div>
 											</div>
-										</div>
-									</li>
-								);
-							})}
+										</li>
+									);
+								})}
 						</Masonry>
 					</div>
 				</div>
@@ -175,10 +180,12 @@ function Gallery() {
 				)}
 			</Layout>
 			<Modal ref={openModal}>
-				<img
-					src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`}
-					alt={Items[Index]?.title}
-				/>
+				{isSuccess && (
+					<img
+						src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`}
+						alt={Items[Index]?.title}
+					/>
+				)}
 			</Modal>
 		</>
 	);

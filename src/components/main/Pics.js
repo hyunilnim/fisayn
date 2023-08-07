@@ -1,12 +1,10 @@
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { useGalleryQuery } from '../../hooks/useGalleryQuery';
 
 function Pics() {
-	// console.log(useSelector((store) => store));
-	const Pics = useSelector((store) => store.gallery.data);
-	console.log(Pics);
+	const { data: Pics, isSuccess } = useGalleryQuery({ type: 'user', user: '198484213@N03' });
 
 	return (
 		<section className='myScroll'>
@@ -21,70 +19,28 @@ function Pics() {
 
 					<div className='work_list_wrap'>
 						<ul className='work_list'>
-							{Pics.map((pic, idx) => {
-								if (idx >= 6) return null;
-								return (
-									<li key={idx}>
-										<a href='/' className='work_item'>
-											<p className='work_item__num'>p / 123</p>
-											<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
-											<p className='work_item__title'>
-												<FontAwesomeIcon icon={faX} />
-												<span>Crestron Home</span>
-											</p>
-											<div className='work_item__img'>
-												<img
-													src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`}
-													alt={pic.title}
-												/>
-											</div>
-										</a>
-									</li>
-								);
-							})}
-
-							{/* <li>
-								<a href='/' className='work_item'>
-									<p className='work_item__num'>p / 123</p>
-									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
-									<p className='work_item__title'>
-										<FontAwesomeIcon icon={faX} />
-										<span>Crestron Home</span>
-									</p>
-									<div className='work_item__img'>
-										<img src={`${process.env.PUBLIC_URL}/img/pic1.jpeg`} alt='' className='work_img' />
-										<img src={`${process.env.PUBLIC_URL}/img/pic2.jpeg`} alt='' className='work_img' />
-									</div>
-								</a>
-							</li> */}
-							{/* <li>
-								<a href='/' className='work_item'>
-									<p className='work_item__num'>p / 123</p>
-									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
-									<p className='work_item__title'>
-										<FontAwesomeIcon icon={faX} />
-										<span>Crestron Home</span>
-									</p>
-									<div className='work_item__img'>
-										<img src={`${process.env.PUBLIC_URL}/img/pic3.jpeg`} alt='' className='work_img' />
-										<img src={`${process.env.PUBLIC_URL}/img/pic4.jpeg`} alt='' className='work_img' />
-									</div>
-								</a>
-							</li>
-							<li>
-								<a href='/' className='work_item'>
-									<p className='work_item__num'>p / 123</p>
-									<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
-									<p className='work_item__title'>
-										<FontAwesomeIcon icon={faX} />
-										<span>Crestron Home</span>
-									</p>
-									<div className='work_item__img'>
-										<img src={`${process.env.PUBLIC_URL}/img/pic5.jpeg`} alt='' className='work_img' />
-										<img src={`${process.env.PUBLIC_URL}/img/pic6.jpeg`} alt='' className='work_img' />
-									</div>
-								</a>
-							</li> */}
+							{isSuccess &&
+								Pics.map((pic, idx) => {
+									if (idx >= 6) return null;
+									return (
+										<li key={idx}>
+											<a href='/' className='work_item'>
+												<p className='work_item__num'>p / 123</p>
+												<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
+												<p className='work_item__title'>
+													<FontAwesomeIcon icon={faX} />
+													<span>Crestron Home</span>
+												</p>
+												<div className='work_item__img'>
+													<img
+														src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`}
+														alt={pic.title}
+													/>
+												</div>
+											</a>
+										</li>
+									);
+								})}
 						</ul>
 					</div>
 					<p className='btn_wrap'>
