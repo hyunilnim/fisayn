@@ -1,10 +1,10 @@
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faShareNodes } from '@fortawesome/free-solid-svg-icons';
+import { useDepartmentQuery } from '../../hooks/useDepartmentQuery';
 
 function Footer() {
-	const Department = useSelector((store) => store.department.data);
+	const { data: Department, isSuccess } = useDepartmentQuery();
 
 	const scrollToTop = () => {
 		window.scroll({
@@ -70,6 +70,8 @@ function Footer() {
 						<div className='footer_desc'>
 							<address>110, Sejong-daero, Jung-gu, Seoul, Republic of Korea</address>
 							<p className='footer_copy'>
+								{`This Company was founded by ${isSuccess && Department[0]?.name} in 2023`}
+								<br />
 								Family owned and operated since 2008. All rights reserved. &copy; 2023 Paper Tiger
 							</p>
 						</div>
