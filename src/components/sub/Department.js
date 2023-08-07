@@ -22,23 +22,26 @@ function Department() {
 						</p>
 					</div>
 				</div>
-				<ul className='member_list'>
-					{Members?.map((data, idx) => {
-						return (
-							<li className='member_item'>
-								<div className='member_item__info'>
-									<h2 className='member_item__title'>
-										<span>{data.name}</span>
-									</h2>
-									<p className='member_item__desc'>{data.position}</p>
-								</div>
-								<div className='member_item__img'>
-									<img src={`${process.env.PUBLIC_URL}/img/${data.pic}`} alt={data.name} />
-								</div>
-							</li>
-						);
-					})}
-				</ul>
+				<div className='member_zone'>
+					<h3 class='member_title'>TEAM</h3>
+					<ul className='member_list'>
+						{Members?.map((data, idx) => {
+							return (
+								<li className='member_item'>
+									<div className='member_item__img'>
+										<img src={`${process.env.PUBLIC_URL}/img/${data.pic}`} alt={data.name} />
+									</div>
+									<div className='member_item__info'>
+										<h2 className='member_item__title'>
+											<span>{data.name}</span>
+										</h2>
+										<p className='member_item__desc'>{data.position}</p>
+									</div>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
 			</div>
 		</Layout>
 	);

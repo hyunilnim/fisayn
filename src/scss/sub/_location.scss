@@ -87,6 +87,15 @@
 		#map {
 			height: 50vh;
 			background: #111;
+			filter: saturate(0%);
+			transition: filter 0.5s;
+
+			&:hover {
+				filter: saturate(100%);
+			}
+			&.on {
+				filter: saturate(100%);
+			}
 		}
 	}
 

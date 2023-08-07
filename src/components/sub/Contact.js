@@ -117,7 +117,7 @@ function Contact() {
 						})}
 						<span className='branch__bg'></span>
 					</div>
-					<div id='map' ref={container}></div>
+					<div id='map' ref={container} className={Traffic ? 'on' : 'off'}></div>
 					<button
 						type='button'
 						className='btnToggle'

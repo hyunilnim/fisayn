@@ -1,7 +1,24 @@
 .Community {
 	> .inner {
+		.communityInput {
+			position: relative;
+			display: flex;
+			gap: 50px;
+			margin-top: 50px;
+
+			*[class$='Box'] {
+				width: 50%;
+			}
+		}
+
 		.inputBox {
+			position: sticky;
+			top: 30px;
+			left: 0;
+			align-self: flex-start;
 			width: 100%;
+			z-index: 10;
+			transform: translateZ(0);
 
 			input,
 			textarea {
@@ -20,14 +37,50 @@
 				resize: none;
 			}
 			textarea {
-				height: 100px;
+				height: 300px;
+				margin-top: 15px;
 			}
 			.btnSet {
+				margin-top: 15px;
+				text-align: right;
+
+				button {
+					display: inline-block;
+					border: 1px solid #666;
+					width: 60px;
+					height: 60px;
+					margin-right: 15px;
+					border-radius: 60px;
+					color: #666;
+					font: 12px/1 'arial';
+					transition: 0.3s ease-in-out;
+
+					&:hover {
+					}
+				}
 			}
 		}
 
 		.showBox {
-			background: #fff;
+			article {
+				margin-bottom: 30px;
+				.txt {
+					// display: flex;
+					// align-items: center;
+					// justify-content: space-between;
+					background: #fff;
+					padding: 30px;
+					border: 1px solid #cbd6e2;
+					border-radius: 10px;
+					.board_desc {
+						margin-top: 15px;
+					}
+				}
+
+				.btnSet {
+					text-align: right;
+				}
+			}
 		}
 	}
 }

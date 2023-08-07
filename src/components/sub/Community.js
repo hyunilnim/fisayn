@@ -79,66 +79,67 @@ function Community() {
 	return (
 		<Layout name={'Community'}>
 			{/* 입력 */}
-			<div className='inputBox'>
-				<input type='text' placeholder='제목을 입력하세요.' ref={input} />
-				<br />
-				<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
-				<br />
-
-				<div className='btnSet'>
-					<button type='button' onClick={resetForm}>
-						CANCEL
-					</button>
-					<button type='button' onClick={createPost}>
-						WRITE
-					</button>
+			<div className='communityInput'>
+				<div className='inputBox'>
+					<input type='text' placeholder='제목을 입력하세요.' ref={input} />
+					<br />
+					<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
+					<br />
+					<div className='btnSet'>
+						<button type='button' onClick={resetForm}>
+							CANCEL
+						</button>
+						<button type='button' onClick={createPost}>
+							WRITE
+						</button>
+					</div>
 				</div>
-			</div>
-			<div className='showBox'>
-				{Posts.map((post, idx) => {
-					return (
-						<article key={idx}>
-							{post.enableUpdate ? (
-								// 수정모드
-								<>
-									<div className='txt'>
-										<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
-										<br />
-										<textarea
-											placeholder='본문을 입력하세요.'
-											defaultValue={post.content}
-											ref={editTextarea}
-										></textarea>
-									</div>
-									<nav className='btnSet'>
-										<button type='button' onClick={() => disableUpdate(idx)}>
-											CANCEL
-										</button>
-										<button type='button' onClick={() => updatePost(idx)}>
-											UPDATE
-										</button>
-									</nav>
-								</>
-							) : (
-								// 출력모드
-								<>
-									<div className='txt'>
-										<h2 className='board_title'>{post.title}</h2>
-										<p className='board_desc'>{post.content}</p>
-									</div>
-									<div className='btnSet'>
-										<button type='button' onClick={() => enableUpdate(idx)}>
-											EDIT
-										</button>
-										<button type='button' onClick={() => deletePost(idx)}>
-											DELETE
-										</button>
-									</div>
-								</>
-							)}
-						</article>
-					);
-				})}
+				<div className='showBox'>
+					{Posts.map((post, idx) => {
+						return (
+							<article key={idx}>
+								{post.enableUpdate ? (
+									// 수정모드
+									<>
+										<div className='txt'>
+											<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
+											<br />
+											<textarea
+												placeholder='본문을 입력하세요.'
+												defaultValue={post.content}
+												ref={editTextarea}
+											></textarea>
+										</div>
+										<nav className='btnSet'>
+											<button type='button' onClick={() => disableUpdate(idx)}>
+												CANCEL
+											</button>
+											<button type='button' onClick={() => updatePost(idx)}>
+												UPDATE
+											</button>
+										</nav>
+									</>
+								) : (
+									// 출력모드
+									<>
+										<div className='txt'>
+											<h2 className='board_title'>{post.title}</h2>
+											<p className='board_desc'>{post.content}</p>
+										</div>
+										<div className='btnSet'>
+											<button type='button' onClick={() => enableUpdate(idx)}>
+												EDIT
+											</button>
+											<button type='button' onClick={() => deletePost(idx)}>
+												DELETE
+											</button>
+										</div>
+									</>
+								)}
+							</article>
+						);
+					})}
+				</div>
 			</div>
 		</Layout>
 	);
