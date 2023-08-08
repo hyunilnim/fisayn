@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEraser, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 function Community() {
 	const getLocalData = () => {
@@ -8,23 +10,42 @@ function Community() {
 	};
 
 	const input = useRef(null);
+	const name = useRef(null);
+	const date = useRef(null);
 	const textarea = useRef(null);
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
+	const editName = useRef(null);
+	const editDate = useRef(null);
 	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
 		input.current.value = '';
 		textarea.current.value = '';
+		name.current.value = '';
+		date.current.value = '';
 	};
 
 	const createPost = () => {
-		if (!input.current.value.trim() || !textarea.current.value.trim()) {
+		if (
+			!name.current.value.trim() ||
+			!date.current.value.trim() ||
+			!input.current.value.trim() ||
+			!textarea.current.value.trim()
+		) {
 			resetForm();
 			return alert('제목과 본문을 모두 입력해주세요.');
 		}
-		setPosts([{ title: input.current.value, content: textarea.current.value }, ...Posts]);
+		setPosts([
+			{
+				title: input.current.value,
+				content: textarea.current.value,
+				name: name.current.value,
+				date: date.current.value,
+			},
+			...Posts,
+		]);
 		resetForm();
 	};
 
@@ -55,7 +76,12 @@ function Community() {
 	};
 
 	const updatePost = (editIndex) => {
-		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
+		if (
+			!editInput.current.value.trim() ||
+			!editTextarea.current.value.trim() ||
+			!editName.current.value.trim() ||
+			!editDate.current.value.trim()
+		) {
 			return alert('수정할 제목과 본문을 모두 입력해주세요.');
 		}
 		setPosts(
@@ -63,6 +89,8 @@ function Community() {
 				if (postIndex === editIndex) {
 					post.title = editInput.current.value;
 					post.content = editTextarea.current.value;
+					post.name = editName.current.value;
+					post.date = editDate.current.value;
 					post.enableUpdate = false;
 				}
 				return post;
@@ -81,10 +109,13 @@ function Community() {
 			{/* 입력 */}
 			<div className='communityInput'>
 				<div className='inputBox'>
-					<input type='text' placeholder='제목을 입력하세요.' ref={input} />
-					<br />
-					<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
-					<br />
+					<div className='inputBox_form'>
+						<input type='text' placeholder='이름을 입력하세요.' ref={name} />
+						<input type='text' placeholder='날짜를 입력하세요.' ref={date} />
+						<input type='text' placeholder='제목을 입력하세요.' ref={input} />
+						<br />
+						<textarea placeholder='본문을 입력하세요.' ref={textarea}></textarea>
+					</div>
 					<div className='btnSet'>
 						<button type='button' onClick={resetForm}>
 							CANCEL
@@ -102,6 +133,8 @@ function Community() {
 									// 수정모드
 									<>
 										<div className='txt'>
+											<input type='text' placeholder='이름을 입력하세요.' defaultValue={post.name} ref={editName} />
+											<input type='text' placeholder='날짜를 입력하세요.' defaultValue={post.date} ref={editDate} />
 											<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
 											<br />
 											<textarea
@@ -125,13 +158,17 @@ function Community() {
 										<div className='txt'>
 											<h2 className='board_title'>{post.title}</h2>
 											<p className='board_desc'>{post.content}</p>
+											<p className='board_name'>{post.name}</p>
+											<p className='board_date'>{post.date}</p>
 										</div>
 										<div className='btnSet'>
 											<button type='button' onClick={() => enableUpdate(idx)}>
-												EDIT
+												<span className='text_hidden'>EDIT</span>
+												<FontAwesomeIcon icon={faEraser} />
 											</button>
 											<button type='button' onClick={() => deletePost(idx)}>
-												DELETE
+												<span className='text_hidden'>DELETE</span>
+												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
 										</div>
 									</>
