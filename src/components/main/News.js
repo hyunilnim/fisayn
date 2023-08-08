@@ -31,12 +31,18 @@ function News({ Scrolled, Pos }) {
 					<div className='news_list'>
 						<ul className='news_item'>
 							{Posts.map((post, idx) => {
-								if (idx >= 10) return null;
+								if (idx > 4) return null;
 								return (
 									<li key={idx}>
 										<div href='#' className='news_link'>
+											<div className='news_info'>
+												<p className='news_info__name'>{post.name}</p>
+												<p className='news_info__date'>{post.date}</p>
+											</div>
 											<p className='news_link__title'>{post.title}</p>
-											{/* <p className='news_link__desc'>{post.content}</p> */}
+											<p className='news_link__desc'>
+												{post.content.length > 100 ? post.content.substr(0, 100) + '...' : post.content}
+											</p>
 										</div>
 									</li>
 								);
