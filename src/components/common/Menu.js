@@ -1,16 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 import { useGlobalData } from '../../hooks/useGlobalContext';
+import { useEffect } from 'react';
 
 function Menu() {
 	const active = { color: 'white' };
 	const { MenuOpen, setMenuOpen } = useGlobalData();
 
-	// useEffect(() => {
-	// 	window.addEventListener('resize', () => {
-	// 		if (window.innerWidth >= 1200) dispatch(close());
-	// 	});
-	// }, [dispatch]);
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			if (window.innerWidth >= 1200) setMenuOpen(false);
+		});
+	}, [setMenuOpen]);
 
 	return (
 		<>
