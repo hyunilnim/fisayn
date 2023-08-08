@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
 import { useHistory } from 'react-router-dom';
+import { useDebounce } from '../../hooks/useDebounce';
 
 function Member() {
 	const selectEl = useRef(null);
@@ -20,18 +21,11 @@ function Member() {
 	const [Val, setVal] = useState(initVal.current);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
+	const [Mounted, setMounted] = useState(true);
+
+	const DebouncedVal = useDebounce(Val);
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setVal({ ...Val, [name]: value });
-	};
-
-	const handleRadio = (e) => {
-		const { name, value } = e.target;
-		setVal({ ...Val, [name]: value });
-	};
-
-	const handleSelect = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...Val, [name]: value });
 	};
@@ -46,6 +40,12 @@ function Member() {
 		});
 		setVal({ ...Val, [name]: checkArr });
 	};
+
+	const showErr = useCallback(() => {
+		console.log('showErr'); // debounce 처리 안하면 글자 하나하나 입력할 떄마다 함수호출됨
+		setSubmit(false);
+		setErr(check(DebouncedVal));
+	}, [DebouncedVal]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -85,25 +85,32 @@ function Member() {
 		return errs;
 	};
 
-	const resetForm = useCallback(() => {
-		const select = selectEl.current.options[0];
-		const radios = radioGroup.current.querySelectorAll('input');
-		const checks = checkGroup.current.querySelectorAll('input');
+	// const resetForm = useCallback(() => {
+	// 	const select = selectEl.current.options[0];
+	// 	const radios = radioGroup.current.querySelectorAll('input');
+	// 	const checks = checkGroup.current.querySelectorAll('input');
 
-		select.selected = true;
-		radios.forEach((el) => (el.checked = false));
-		checks.forEach((el) => (el.checked = false));
+	// 	select.selected = true;
+	// 	radios.forEach((el) => (el.checked = false));
+	// 	checks.forEach((el) => (el.checked = false));
 
-		setVal(initVal);
-	}, [initVal]);
+	// 	setVal(initVal);
+	// }, [initVal]);
 
 	useEffect(() => {
 		const len = Object.keys(Err).length;
 		if (len === 0 && Submit) {
-			alert('모든 인증을 통과 했습니다.');
-			resetForm();
+			alert('모든 인증을 통과 했습니다. 메인 화면으로 이동 됩니다.');
+
+			history.push('/');
+			// resetForm();
 		}
-	}, [Err, Submit]);
+		return () => setMounted(false);
+	}, [Err, Submit, history]);
+
+	useEffect(() => {
+		showErr();
+	}, [DebouncedVal, showErr]);
 
 	return (
 		<Layout name={'Member'} txt={`Let's-Work-Together`}>
@@ -187,7 +194,7 @@ function Member() {
 										<label htmlFor='pos'>Position</label>
 									</th>
 									<td>
-										<select name='pos' id='pos' onChange={handleSelect} ref={selectEl}>
+										<select name='pos' id='pos' onChange={handleChange} ref={selectEl}>
 											<option value=''>Select your position</option>
 											<option value='opt1'>Information technology manager</option>
 											<option value='opt2'>Product manager</option>
@@ -201,10 +208,10 @@ function Member() {
 								<tr>
 									<th scope='row'>Gender</th>
 									<td ref={radioGroup}>
-										<input type='radio' name='gender' id='male' onChange={handleRadio} />
+										<input type='radio' name='gender' id='male' onChange={handleChange} />
 										<label htmlFor='male'>Male</label>
 
-										<input type='radio' name='gender' id='female' onChange={handleRadio} />
+										<input type='radio' name='gender' id='female' onChange={handleChange} />
 										<label htmlFor='female'>Female</label>
 										<br />
 										{Err.gender && <p>{Err.gender}</p>}

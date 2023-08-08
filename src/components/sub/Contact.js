@@ -1,6 +1,7 @@
 import Layout from '../common/Layout';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { useThrottle } from '../../hooks/useThrottle';
 
 function Contact() {
 	const container = useRef(null);
@@ -76,6 +77,11 @@ function Contact() {
 			}
 		);
 	};
+	const setCenter = useCallback(() => {
+		Location?.setCenter(info.current[Index].latlng);
+	}, [Index, Location]);
+
+	const setCenter2 = useThrottle(setCenter);
 
 	useEffect(() => {
 		container.current.innerHTML = '';
@@ -88,14 +94,14 @@ function Contact() {
 		setLocation(mapInstance);
 
 		mapInstance.setZoomable(false);
-
-		const setCenter = () => {
-			mapInstance.setCenter(info.current[Index].latlng);
-		};
-
-		window.addEventListener('resize', setCenter);
-		return () => window.removeEventListener('resize', setCenter);
 	}, [Index, kakao, marker]);
+
+	useEffect(() => {
+		window.addEventListener('resize', setCenter2);
+		return () => {
+			window.removeEventListener('resize', setCenter2);
+		};
+	}, [setCenter2]);
 
 	useEffect(() => {
 		Traffic

@@ -7,6 +7,8 @@ import Modal from '../common/Modal';
 import { useGalleryQuery } from '../../hooks/useGalleryQuery';
 
 function Gallery() {
+	const [Mounted, setMounted] = useState(true);
+
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const frame = useRef(null);
@@ -65,7 +67,7 @@ function Gallery() {
 
 	useEffect(() => {
 		counter.current = 0;
-		if (isSuccess && Items.length === 0) {
+		if (Mounted && isSuccess && Items.length === 0 && !firstLoaded.current) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
@@ -82,13 +84,14 @@ function Gallery() {
 				++counter.current;
 				if (counter.current === imgs.length - 2) {
 					setLoader(false);
-					frame.current.classList.add('on');
+					frame?.current.classList.add('on');
 					enableEvent.current = true;
 					document.body.style.overflow = 'auto';
 				}
 			};
 		});
-	}, [isSuccess, Items]);
+		return () => setMounted(false);
+	}, [isSuccess, Items, Mounted]);
 
 	return (
 		<>

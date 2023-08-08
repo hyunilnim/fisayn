@@ -1,8 +1,14 @@
 import Layout from '../common/Layout';
 import { useDepartmentQuery } from '../../hooks/useDepartmentQuery';
+import { useState, useEffect } from 'react';
 
 function Department() {
+	const [Mounted, setMounted] = useState(true);
 	const { data: Members, isSuccess } = useDepartmentQuery();
+
+	useEffect(() => {
+		return () => setMounted(false);
+	}, []);
 
 	return (
 		<Layout name={'Department'}>
@@ -26,7 +32,8 @@ function Department() {
 				<div className='member_zone'>
 					<h3 class='member_title'>TEAM</h3>
 					<ul className='member_list'>
-						{isSuccess &&
+						{Mounted &&
+							isSuccess &&
 							Members?.map((data, idx) => {
 								return (
 									<li className='member_item'>
