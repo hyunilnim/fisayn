@@ -21,15 +21,15 @@ function Youtube() {
 					{Vids.map((video, idx) => {
 						return (
 							<li key={idx}>
-								<div className='gallery_item'>
-									<div
-										className='gallery_item__img'
-										onClick={() => {
-											console.log('test');
-											modal.current.openPop();
-											setIndex(idx);
-										}}
-									>
+								<div
+									className='gallery_item'
+									onClick={() => {
+										console.log('test');
+										modal.current.openPop();
+										setIndex(idx);
+									}}
+								>
+									<div className='gallery_item__img'>
 										<img
 											src={video.snippet.thumbnails.standard.url}
 											alt={video.snippet.title}
