@@ -85,21 +85,80 @@
 		.showBox {
 			article {
 				margin-bottom: 30px;
+				background: #fff;
+				padding: 30px;
+				border: 1px solid #cbd6e2;
+				border-radius: 10px;
+				font-family: 'Verdana', sans-serif;
+
 				.txt {
-					// display: flex;
-					// align-items: center;
-					// justify-content: space-between;
-					background: #fff;
-					padding: 30px;
-					border: 1px solid #cbd6e2;
-					border-radius: 10px;
+					.board_title {
+						font-size: 22px;
+					}
 					.board_desc {
+						color: #555;
 						margin-top: 15px;
+					}
+				}
+				.info {
+					display: flex;
+					justify-content: space-between;
+					margin-bottom: 20px;
+					p {
+						color: gray;
 					}
 				}
 
 				.btnSet {
 					text-align: right;
+					margin-top: 20px;
+
+					button {
+						padding: 0 5px;
+						display: inline-flex;
+						align-items: center;
+
+						span {
+							display: inline-block;
+							margin-left: 5px;
+							color: #666;
+							font-size: 15px;
+						}
+						svg,
+						svg path {
+							font-size: 22px;
+							color: #666;
+						}
+					}
+				}
+
+				.postEdit {
+					input,
+					textarea {
+						width: 100%;
+						padding: 5px;
+						font-size: 16px;
+						color: #222;
+						border: none;
+						background: #f0f0f0;
+						border-bottom: 1px solid #111;
+						resize: none;
+						font-family: 'Verdana', sans-serif;
+					}
+					textarea {
+						margin-top: 15px;
+						min-height: 150px;
+					}
+					.info {
+						input {
+							width: 48%;
+						}
+					}
+					.txt {
+						input {
+							font-size: 22px;
+						}
+					}
 				}
 			}
 		}
@@ -109,7 +168,32 @@
 		opacity: 1;
 		transform: translateY(0);
 	}
-}
 
-@media screen and (max-width: $tablet) {
+	@media screen and (max-width: $tablet) {
+		> .inner {
+			.communityInput {
+				display: block;
+
+				*[class$='Box'] {
+					width: 100%;
+				}
+				.inputBox {
+					position: static;
+
+					.inputBox_form input {
+						height: 40px;
+					}
+					.inputBox_form textarea {
+						height: 100px;
+					}
+				}
+				.showBox {
+					margin-top: 50px;
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: $mobile) {
+	}
 }

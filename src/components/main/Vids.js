@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { useYoutubeQuery } from '../../hooks/useYoutubeQuery';
+import { Link } from 'react-router-dom';
 
 function Vids() {
 	const { data: Vids, isSuccess } = useYoutubeQuery();
@@ -11,9 +12,9 @@ function Vids() {
 					<div className='head_title_wrap'>
 						<h2 className='head_title'>LATEST INSIGHTS</h2>
 						<p className='btn_wrap'>
-							<a href='#' className='btn_round'>
+							<Link to='/youtube' className='btn_round'>
 								<span>VIEW ALL</span>
-							</a>
+							</Link>
 						</p>
 					</div>
 					<div className='gallery_list_wrap'>
@@ -23,7 +24,7 @@ function Vids() {
 									if (idx >= 3) return null;
 									return (
 										<li key={idx}>
-											<a href='#' className='gallery_item'>
+											<div className='gallery_item'>
 												<p className='gallery_item__title'>
 													{vid.snippet.title.length > 70 ? vid.snippet.title.substr(0, 90) + '...' : vid.snippet.title}
 												</p>
@@ -40,7 +41,7 @@ function Vids() {
 														className='gallery_img'
 													/>
 												</div>
-											</a>
+											</div>
 										</li>
 									);
 								})}

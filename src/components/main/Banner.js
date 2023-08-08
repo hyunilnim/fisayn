@@ -13,7 +13,7 @@ function BtnRolling() {
 	const swiper = useSwiper();
 	return (
 		<ul className='controls'>
-			<li>
+			<li className='btnStart'>
 				<button type='button'>
 					<FontAwesomeIcon
 						icon={faPlay}
@@ -26,7 +26,7 @@ function BtnRolling() {
 					/>
 				</button>
 			</li>
-			<li>
+			<li className='btnStop'>
 				<button type='button'>
 					<FontAwesomeIcon
 						icon={faPause}
@@ -55,24 +55,19 @@ function Banner() {
 						</p>
 						<h2 className='head_title'>PARTNER WITH THE DIGITAL AGENCY DESIGNED TO HELP YOU DO IT.</h2>
 						<p className='btn_wrap'>
-							<a href='#' className='btn_round'>
+							<a href='#!' className='btn_round'>
 								<span>ABOUT US</span>
 							</a>
 						</p>
 					</div>
 					<div id='' className='about_img_wrap'>
-						{/* <div className='swiper-option'>
-								<div className='swiper-button-prev'></div>
-								<div className='swiper-button-next'></div>
-								<span className='btnPlay on'>play</span>
-								<span className='btnPause'>pause</span>
-							</div> */}
 						<Swiper
 							modules={[Autoplay, Pagination, Navigation]}
 							loop={true}
 							autoplay={{ delay: 2000, disableOnInteraction: true }}
-							pagination={{ clickable: true }}
-							navigation={true}
+							// pagination={{ clickable: true }}
+							slidesPerView={2}
+							// navigation={true}
 						>
 							<BtnRolling />
 							<SwiperSlide data-slide='1'>

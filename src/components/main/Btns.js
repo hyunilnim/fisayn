@@ -20,7 +20,7 @@ function Btns({ setScrolled, setPos }) {
 		const base = -window.innerHeight / 3;
 		const scroll = window.scrollY;
 		const btns = btnRef?.current.children;
-		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+		const boxs = btnRef?.current.parentElement.querySelectorAll('.myScroll');
 		setScrolled(scroll);
 
 		pos.current.forEach((pos, idx) => {

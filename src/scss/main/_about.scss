@@ -6,17 +6,20 @@
 
 	.inner {
 		position: relative;
-		display: flex;
-		justify-content: space-between;
+		// display: flex;
+		// justify-content: space-between;
 		padding-top: 65px;
 		border-top: 3px solid $primary-color;
 	}
 
 	.about_title_wrap {
-		flex: 1;
-		width: calc(50% - 8px);
+		// flex: 1;
+		position: absolute;
+		top: 65px;
+		left: 0;
+		width: 50%;
 		padding-right: 8%;
-		margin-right: 8px;
+		z-index: 10;
 
 		.head_title__sub {
 			font-size: 1.1875em;
@@ -39,7 +42,7 @@
 		}
 
 		.btn_wrap {
-			margin-top: 90px;
+			margin-top: 120px;
 		}
 	}
 	.about_img_wrap {
@@ -48,29 +51,65 @@
 		transition: 0.5s ease-in-out;
 		transition-delay: 0.7s;
 		transition-duration: 0.7s;
-		flex: 1;
-		width: calc(50% - 8px);
+		// flex: 1;
+		// width: calc(50% - 8px);
+		width: 100%;
 		margin-left: 8px;
 		position: relative;
 
 		.swiper {
+			position: relative;
+			padding-bottom: 20px;
+
 			.controls {
+				display: flex;
+				gap: 10px;
+				margin: 10px 10px 0 0;
+				justify-content: flex-end;
+
+				button {
+					font-size: 22px;
+					color: #000;
+				}
+
 				svg {
 					cursor: pointer;
-					opacity: 0.4;
-					transform: scale(1);
-					transition: opacity 0.5s, transform 0.5s;
+					transform: scale(0.7);
+					transition: transform 0.5s;
 
 					&.on {
-						opacity: 1;
-						transform: scale(1.5);
+						transform: scale(1);
 					}
 				}
 			}
 
+			.swiper-pagination {
+				width: auto;
+			}
+			.swiper-button-prev {
+				position: absolute;
+				bottom: 0;
+				right: 30px;
+				top: inherit;
+				left: inherit;
+				color: $primary-color;
+				transform: scale(0.7);
+				z-index: 10;
+			}
+			.swiper-button-next {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				top: inherit;
+				left: inherit;
+				color: $primary-color;
+				transform: scale(0.7);
+				z-index: 10;
+			}
+
 			.swiper-wrapper {
 				.swiper-slide {
-					border-radius: 20px;
+					// border-radius: 20px;
 					// position: absolute;
 					// top: 0;
 					// left: 100%;
@@ -79,12 +118,21 @@
 					z-index: 3;
 					transition: 0.7s ease;
 
+					transform: scale(0.7);
+					opacity: 0.3;
+					filter: brightness(50%);
+
 					img {
-						border-radius: 20px;
+						// border-radius: 20px;
 						width: 100%;
 						height: 100%;
 						object-fit: cover;
 					}
+				}
+				.swiper-slide-next {
+					transform: scale(1);
+					opacity: 1;
+					filter: brightness(100%);
 				}
 			}
 		}

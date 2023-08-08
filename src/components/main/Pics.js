@@ -2,6 +2,7 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { memo } from 'react';
 import { useGalleryQuery } from '../../hooks/useGalleryQuery';
+import { Link, NavLink } from 'react-router-dom';
 
 function Pics() {
 	const { data: Pics, isSuccess } = useGalleryQuery({ type: 'user', user: '198484213@N03' });
@@ -24,12 +25,11 @@ function Pics() {
 									if (idx >= 6) return null;
 									return (
 										<li key={idx}>
-											<a href='/' className='work_item'>
-												<p className='work_item__num'>p / 123</p>
+											<div className='work_item'>
 												<p className='work_item__desc'>A smarter digital home for the premium smart home solution</p>
 												<p className='work_item__title'>
 													<FontAwesomeIcon icon={faX} />
-													<span>Crestron Home</span>
+													<span>MORE</span>
 												</p>
 												<div className='work_item__img'>
 													<img
@@ -37,16 +37,16 @@ function Pics() {
 														alt={pic.title}
 													/>
 												</div>
-											</a>
+											</div>
 										</li>
 									);
 								})}
 						</ul>
 					</div>
 					<p className='btn_wrap'>
-						<a href='/' className='btn_round'>
+						<Link to='/gallery' className='btn_round'>
 							<span>SEE OUR WORK</span>
-						</a>
+						</Link>
 					</p>
 				</div>
 			</div>

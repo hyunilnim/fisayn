@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope, faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useDepartmentQuery } from '../../hooks/useDepartmentQuery';
+import { NavLink } from 'react-router-dom';
 
 function Footer() {
 	const { data: Department, isSuccess } = useDepartmentQuery();
@@ -22,7 +23,7 @@ function Footer() {
 			</div> */}
 			<div className='inner footer_wrap'>
 				<div className='footer_top'>
-					<div className='footer_top__clock'>
+					{/* <div className='footer_top__clock'>
 						<div className='clock'>
 							<span className='country'>SE</span>
 							<div className='clock_text'>
@@ -35,7 +36,7 @@ function Footer() {
 								<span className='clock_dl'>PM</span>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					<div className='footer_top__content'>
 						<ul className='footer_sns'>
 							<li>
@@ -86,22 +87,25 @@ function Footer() {
 					</h1>
 					<ul className='gnb'>
 						<li>
-							<a href='gallery.html'>Gallery</a>
+							<NavLink to='/department'>Department</NavLink>
 						</li>
 						<li>
-							<a href='/'>About</a>
+							<NavLink to='/community'>Community</NavLink>
 						</li>
 						<li>
-							<a href='board.html'>Board</a>
+							<NavLink to='/gallery'>Gallery</NavLink>
 						</li>
 						<li>
-							<a href='youtube.html'>Video</a>
+							<NavLink to='/youtube'>Youtube</NavLink>
+						</li>
+						<li>
+							<NavLink to='/contact'>Contact</NavLink>
 						</li>
 					</ul>
 					<div className='nav_side'>
-						<a href='/' className='nav_side_btn btn_round'>
-							<span>CONTACT US</span>
-						</a>
+						<NavLink to='/member' className='nav_side_btn btn_round'>
+							<span>JOIN US</span>
+						</NavLink>
 					</div>
 				</div>
 			</div>

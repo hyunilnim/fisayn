@@ -1,4 +1,5 @@
 import { useState, useEffect, memo } from 'react';
+import { Link } from 'react-router-dom';
 
 function News({ Scrolled, Pos }) {
 	const dummy = [
@@ -36,7 +37,7 @@ function News({ Scrolled, Pos }) {
 									<li key={idx}>
 										<div href='#' className='news_link'>
 											<div className='news_info'>
-												<p className='news_info__name'>{post.name}</p>
+												<p className='news_info__name'>By {post.name}</p>
 												<p className='news_info__date'>{post.date}</p>
 											</div>
 											<p className='news_link__title'>{post.title}</p>
@@ -50,9 +51,9 @@ function News({ Scrolled, Pos }) {
 						</ul>
 					</div>
 					<p className='btn_wrap'>
-						<a href='#' className='btn_round'>
+						<Link to='/community' className='btn_round'>
 							<span>VIEW MORE</span>
-						</a>
+						</Link>
 					</p>
 				</div>
 			</div>

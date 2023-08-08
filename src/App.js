@@ -20,11 +20,9 @@ import Youtube from './components/sub/Youtube';
 //scss
 import './scss/style.scss';
 
-//redux
-
 //react-query
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
 	const queryClient = new QueryClient();
@@ -46,7 +44,7 @@ function App() {
 			<Route path='/member' component={Member} />
 			<Footer />
 			<Menu />
-			<ReactQueryDevtools />
+			{/* <ReactQueryDevtools /> */}
 		</QueryClientProvider>
 	);
 }

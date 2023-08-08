@@ -132,44 +132,52 @@ function Community() {
 								{post.enableUpdate ? (
 									// 수정모드
 									<>
-										<div className='txt'>
-											<input type='text' placeholder='이름을 입력하세요.' defaultValue={post.name} ref={editName} />
-											<input type='text' placeholder='날짜를 입력하세요.' defaultValue={post.date} ref={editDate} />
-											<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
-											<br />
-											<textarea
-												placeholder='본문을 입력하세요.'
-												defaultValue={post.content}
-												ref={editTextarea}
-											></textarea>
+										<div className='postEdit'>
+											<div className='info'>
+												<input type='text' placeholder='이름을 입력하세요.' defaultValue={post.name} ref={editName} />
+												<input type='text' placeholder='날짜를 입력하세요.' defaultValue={post.date} ref={editDate} />
+											</div>
+											<div className='txt'>
+												<input type='text' placeholder='제목을 입력하세요.' defaultValue={post.title} ref={editInput} />
+												<br />
+												<textarea
+													placeholder='본문을 입력하세요.'
+													defaultValue={post.content}
+													ref={editTextarea}
+												></textarea>
+											</div>
+											<div className='btnSet'>
+												<button type='button' onClick={() => disableUpdate(idx)}>
+													<span>CANCEL</span>
+												</button>
+												<button type='button' onClick={() => updatePost(idx)}>
+													<span>UPDATE</span>
+												</button>
+											</div>
 										</div>
-										<nav className='btnSet'>
-											<button type='button' onClick={() => disableUpdate(idx)}>
-												CANCEL
-											</button>
-											<button type='button' onClick={() => updatePost(idx)}>
-												UPDATE
-											</button>
-										</nav>
 									</>
 								) : (
 									// 출력모드
 									<>
-										<div className='txt'>
-											<h2 className='board_title'>{post.title}</h2>
-											<p className='board_desc'>{post.content}</p>
-											<p className='board_name'>{post.name}</p>
-											<p className='board_date'>{post.date}</p>
-										</div>
-										<div className='btnSet'>
-											<button type='button' onClick={() => enableUpdate(idx)}>
-												<span className='text_hidden'>EDIT</span>
-												<FontAwesomeIcon icon={faEraser} />
-											</button>
-											<button type='button' onClick={() => deletePost(idx)}>
-												<span className='text_hidden'>DELETE</span>
-												<FontAwesomeIcon icon={faTrashCan} />
-											</button>
+										<div className='postResult'>
+											<div className='info'>
+												<p className='board_name'>By {post.name}</p>
+												<p className='board_date'>{post.date}</p>
+											</div>
+											<div className='txt'>
+												<h2 className='board_title'>{post.title}</h2>
+												<p className='board_desc'>{post.content}</p>
+											</div>
+											<div className='btnSet'>
+												<button type='button' onClick={() => enableUpdate(idx)}>
+													{/* <FontAwesomeIcon icon={faEraser} /> */}
+													<span className=''>EDIT</span>
+												</button>
+												<button type='button' onClick={() => deletePost(idx)}>
+													{/* <FontAwesomeIcon icon={faTrashCan} /> */}
+													<span className=''>DELETE</span>
+												</button>
+											</div>
 										</div>
 									</>
 								)}

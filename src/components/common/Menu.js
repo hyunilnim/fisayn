@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Link, NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, NavLink } from 'react-router-dom';
 import { useGlobalData } from '../../hooks/useGlobalContext';
 
 function Menu() {
-	const active = { color: 'aqua' };
+	const active = { color: 'white' };
 	const { MenuOpen, setMenuOpen } = useGlobalData();
 
 	// useEffect(() => {

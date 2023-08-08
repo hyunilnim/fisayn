@@ -330,6 +330,11 @@ $gap: 30px;
 
 	@media screen and (max-width: $tablet) {
 		.gallery_wrap {
+			.gallery_top {
+				flex-wrap: wrap;
+				gap: 20px;
+			}
+
 			.searchBox {
 				flex: 1 1 100%;
 				margin: 50px 0 0 0;
@@ -338,6 +343,7 @@ $gap: 30px;
 			.gallery_list {
 				width: calc(100% + 20px);
 				margin-left: -20px;
+				margin-top: 30px;
 				padding-bottom: 120px;
 
 				li {
@@ -350,17 +356,28 @@ $gap: 30px;
 
 	@media screen and (max-width: $mobile) {
 		.gallery_wrap {
-			.searchBox {
-				flex: 1 1 100%;
-				margin: 50px 0 0 0;
-			}
+			.gallery_top {
+				.searchBox {
+					flex: 1 1 100%;
+					width: 100%;
+				}
+				.gallery_menu {
+					width: 100%;
 
-			.gallery_menu {
-				button {
-					width: 50%;
+					.gallery_menu__bg {
+						width: 50%;
+					}
+
+					button.on:nth-child(1) ~ .gallery_menu__bg {
+						-webkit-transform: translateX(0px);
+						transform: translateX(0px);
+					}
+					button.on:nth-child(2) ~ .gallery_menu__bg {
+						-webkit-transform: translateX(90%);
+						transform: translateX(90%);
+					}
 				}
 			}
-
 			.gallery_list {
 				width: 100%;
 				margin-left: 0;

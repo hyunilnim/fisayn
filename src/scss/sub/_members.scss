@@ -52,7 +52,11 @@
 			display: flex;
 
 			.member_title {
-				text-align: right;
+				font-size: 5vw;
+				font-weight: bold;
+				font-family: 'Bebas Neue', sans-serif;
+				line-height: 0.8;
+				letter-spacing: -2px;
 			}
 
 			&__img {
@@ -96,7 +100,6 @@
 			justify-content: space-between;
 			flex-wrap: wrap;
 			margin-top: 50px;
-			padding-left: 30%;
 			border-top: 1px solid $primary-color;
 
 			.member_item {
@@ -178,6 +181,14 @@
 	}
 
 	@media screen and (max-width: $tablet) {
+		.member_zone {
+			.member_list {
+				padding-left: 0;
+				.member_item {
+					margin-top: 30px;
+				}
+			}
+		}
 		.member_list_wrap {
 			.member_all {
 				display: block;
