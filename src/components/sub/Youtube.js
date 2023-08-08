@@ -49,7 +49,10 @@ function Youtube() {
 										</p>
 
 										<div className='gallery_side__info gallery_info'>
-											<span className='gallery_info__name'>{video.snippet.videoOwnerChannelTitle}</span>
+											<p className='gallery_info__name'>
+												<span>By </span>
+												{video.snippet.videoOwnerChannelTitle}
+											</p>
 											<span className='gallery_info__date'>
 												{video.snippet.publishedAt.split('T')[0].split('-').join('.')}
 											</span>

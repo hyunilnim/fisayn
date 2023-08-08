@@ -3,6 +3,9 @@
 		position: relative;
 		margin-top: 50px;
 		text-align: right;
+		opacity: 0;
+		transform: translateY(100px);
+		transition: 0.7s 0.7s;
 
 		.branch {
 			position: relative;
@@ -350,6 +353,11 @@
 			margin-top: 15px;
 			color: $red;
 		}
+	}
+
+	&.on .map_wrap {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
 
