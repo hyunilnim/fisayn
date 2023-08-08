@@ -16,14 +16,15 @@ function Youtube() {
 						Vids.map((video, idx) => {
 							return (
 								<li key={idx}>
-									<div className='gallery_item'>
-										<div
-											className='gallery_item__img'
-											onClick={() => {
-												modal.current.openPop();
-												setIndex(idx);
-											}}
-										>
+									<div
+										className='gallery_item'
+										onClick={() => {
+											console.log('test');
+											modal.current.openPop();
+											setIndex(idx);
+										}}
+									>
+										<div className='gallery_item__img'>
 											<img
 												src={video.snippet.thumbnails.standard.url}
 												alt={video.snippet.title}
@@ -43,7 +44,10 @@ function Youtube() {
 											</p>
 
 											<div className='gallery_side__info gallery_info'>
-												<span className='gallery_info__name'>{video.snippet.videoOwnerChannelTitle}</span>
+												<p className='gallery_info__name'>
+													<span>By </span>
+													{video.snippet.videoOwnerChannelTitle}
+												</p>
 												<span className='gallery_info__date'>
 													{video.snippet.publishedAt.split('T')[0].split('-').join('.')}
 												</span>

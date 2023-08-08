@@ -1,63 +1,72 @@
 .Member {
-	.inner {
+	> .inner {
 		display: flex;
-		padding: 0 10vw;
+		justify-content: space-between;
 
 		.head_title {
 			display: none;
 		}
 
-		.contact_head {
-			width: 45%;
-			padding-right: 5vw;
-			strong {
-				font-size: 10vw;
-				font-weight: bold;
-				font-family: 'Bebas Neue', sans-serif;
-				line-height: 0.8;
-				letter-spacing: -2px;
-			}
-			.pic {
-				position: relative;
-				overflow: hidden;
-				border-radius: 0.25em;
-				width: 90%;
-				margin: 10px 0 30px;
-				height: 200px;
-				padding-top: 0;
-				opacity: 0;
-				transform: scaleY(0);
-				transform-origin: top center;
-				transition: 0.6s cubic-bezier(0.26, 0.3, 0.98, 0.59);
-
-				&.on {
-					margin: 30px 0;
-					transform: scaleY(1);
-				}
-				img {
-					position: absolute;
-					top: 0;
-					left: 0;
-					object-fit: cover;
-					width: 100%;
-					height: 100%;
-				}
-			}
+		.head_title__ex {
+			font-size: 9vw;
+			font-weight: bold;
+			font-family: 'Bebas Neue', sans-serif;
+			line-height: 0.8;
+			letter-spacing: -2px;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: 0.5s 0.5s;
 		}
 
+		// .contact_head {
+		// 	width: 40%;
+		// 	padding-right: 5vw;
+		// 	strong {
+		// 		font-size: 10vw;
+		// 		font-weight: bold;
+		// 		font-family: 'Bebas Neue', sans-serif;
+		// 		line-height: 0.8;
+		// 		letter-spacing: -2px;
+		// 	}
+		// 	.pic {
+		// 		position: relative;
+		// 		overflow: hidden;
+		// 		border-radius: 0.25em;
+		// 		width: 90%;
+		// 		margin: 10px 0 30px;
+		// 		height: 200px;
+		// 		padding-top: 0;
+		// 		opacity: 0;
+		// 		transform: scaleY(0);
+		// 		transform-origin: top center;
+		// 		transition: 0.6s cubic-bezier(0.26, 0.3, 0.98, 0.59);
+
+		// 		&.on {
+		// 			margin: 30px 0;
+		// 			transform: scaleY(1);
+		// 		}
+		// 		img {
+		// 			position: absolute;
+		// 			top: 0;
+		// 			left: 0;
+		// 			object-fit: cover;
+		// 			width: 100%;
+		// 			height: 100%;
+		// 		}
+		// 	}
+		// }
+
 		.contact_form {
-			width: 55%;
+			width: 60%;
 			padding-left: 5vw;
-			border-left: 1px solid $primary-color;
+			opacity: 0;
+			transition: 0.7s 0.7s;
 
 			form {
 				height: 100%;
-			}
-
-			fieldset {
-				height: 100%;
 				background: #fff;
-				padding: 3vw 3vw 3vw 2vw;
+				border: 1px solid #33475b;
+				padding: 50px;
 				border-radius: 1.25em;
 			}
 
@@ -183,6 +192,16 @@
 					}
 				}
 			}
+		}
+	}
+
+	&.on {
+		.head_title__ex {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		.contact_form {
+			opacity: 1;
 		}
 	}
 }

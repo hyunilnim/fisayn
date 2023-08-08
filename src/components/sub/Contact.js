@@ -19,21 +19,21 @@ function Contact() {
 
 	const info = useRef([
 		{
-			title: '광화문',
+			title: '본사',
 			latlng: new kakao.maps.LatLng(37.57598923870742, 126.9768610125929),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker.png`,
 			imgSize: new kakao.maps.Size(85, 85),
 			imgPos: { offset: new kakao.maps.Point(45, 80) },
 		},
 		{
-			title: '수정전',
-			latlng: new kakao.maps.LatLng(37.578987, 126.976045),
+			title: '서울 지사',
+			latlng: new kakao.maps.LatLng(37.5662952, 126.9779451),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker.png`,
 			imgSize: new kakao.maps.Size(85, 85),
 			imgPos: { offset: new kakao.maps.Point(45, 80) },
 		},
 		{
-			title: '카카오본사',
+			title: '제주 지사',
 			latlng: new kakao.maps.LatLng(33.450701, 126.570667),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker.png`,
 			imgSize: new kakao.maps.Size(85, 85),
@@ -117,7 +117,7 @@ function Contact() {
 						})}
 						<span className='branch__bg'></span>
 					</div>
-					<div id='map' ref={container}></div>
+					<div id='map' ref={container} className={Traffic ? 'on' : 'off'}></div>
 					<button
 						type='button'
 						className='btnToggle'

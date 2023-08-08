@@ -1,15 +1,75 @@
 $gap: 30px;
 
 .Gallery {
+	.loading {
+		overflow: hidden;
+		opacity: 1;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100vh;
+		z-index: 12;
+		background: rgba(0, 0, 0, 0.7);
+		transition: 0.3s ease-in-out;
+
+		.svg-container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: scale(2);
+			margin-left: -50px;
+			margin-top: -50px;
+			width: 100px;
+			height: 100px;
+			display: flex;
+			align-content: space-around;
+			justify-content: center;
+		}
+
+		.loader-svg {
+			fill: none;
+			stroke-width: 4px;
+			stroke-linecap: round;
+			stroke: rgb(11, 11, 11);
+		}
+		.loader-svg.bg {
+			stroke-width: 9px;
+			stroke: rgb(255, 255, 255);
+		}
+		.animate {
+			stroke-dasharray: 280;
+			animation: fill-animation 1s cubic-bezier(1, 1, 1, 1) 0s infinite;
+		}
+
+		@keyframes fill-animation {
+			0% {
+				stroke-dasharray: 40 242.6;
+				stroke-dashoffset: 0;
+			}
+			50% {
+				stroke-dasharray: 141.3;
+				stroke-dashoffset: 141.3;
+			}
+			100% {
+				stroke-dasharray: 40 242.6;
+				stroke-dashoffset: 282.6;
+			}
+		}
+	}
+
 	.gallery_wrap {
 		position: relative;
 		width: 100%;
+		opacity: 0;
+		transform: translateY(100px);
+		transition: 0.7s 0.7s;
 
 		.gallery_top {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-top: 100px;
+			margin-top: 50px;
 
 			.searchBox {
 				position: relative;
@@ -262,71 +322,10 @@ $gap: 30px;
 			}
 		}
 	}
-	.frame {
-		opacity: 0;
-		transform: translateY(200px);
-		transition: 0.5s;
-	}
-	.frame.on {
+
+	&.on .gallery_wrap {
 		opacity: 1;
-		transform: translateY(0px);
-	}
-
-	.loading {
-		overflow: hidden;
-		opacity: 1;
-		position: fixed;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100vh;
-		z-index: 12;
-		background: rgba(0, 0, 0, 0.7);
-		transition: 0.3s ease-in-out;
-
-		.svg-container {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: scale(2);
-			margin-left: -50px;
-			margin-top: -50px;
-			width: 100px;
-			height: 100px;
-			display: flex;
-			align-content: space-around;
-			justify-content: center;
-		}
-
-		.loader-svg {
-			fill: none;
-			stroke-width: 4px;
-			stroke-linecap: round;
-			stroke: rgb(11, 11, 11);
-		}
-		.loader-svg.bg {
-			stroke-width: 9px;
-			stroke: rgb(255, 255, 255);
-		}
-		.animate {
-			stroke-dasharray: 280;
-			animation: fill-animation 1s cubic-bezier(1, 1, 1, 1) 0s infinite;
-		}
-
-		@keyframes fill-animation {
-			0% {
-				stroke-dasharray: 40 242.6;
-				stroke-dashoffset: 0;
-			}
-			50% {
-				stroke-dasharray: 141.3;
-				stroke-dashoffset: 141.3;
-			}
-			100% {
-				stroke-dasharray: 40 242.6;
-				stroke-dashoffset: 282.6;
-			}
-		}
+		transform: translateY(0);
 	}
 
 	@media screen and (max-width: $tablet) {

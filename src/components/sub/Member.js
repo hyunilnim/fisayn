@@ -107,9 +107,9 @@ function Member() {
 
 	return (
 		<Layout name={'Member'} txt={`Let's-Work-Together`}>
-			<button type='button' onClick={() => history.goBack()}>
+			{/* <button type='button' onClick={() => history.goBack()}>
 				Go back
-			</button>
+			</button> */}
 			<div className='contact_form'>
 				<form onSubmit={handleSubmit}>
 					<fieldset>
