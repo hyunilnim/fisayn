@@ -4,14 +4,15 @@ import Anime from '../../asset/anime';
 function Btns({ setScrolled, setPos }) {
 	const btnRef = useRef(null);
 	const pos = useRef([]);
-
 	const [Num, setNum] = useState(0);
 
 	const getPos = useCallback(() => {
 		pos.current = [];
 		const secs = btnRef?.current.parentElement.querySelectorAll('.myScroll');
 
-		for (const sec of secs) pos.current.push(sec.offsetTop);
+		for (const sec of secs) {
+			pos.current.push(sec.offsetTop);
+		}
 		setNum(pos.current.length);
 		setPos(pos.current);
 	}, [setPos]);
@@ -19,14 +20,19 @@ function Btns({ setScrolled, setPos }) {
 	const activation = useCallback(() => {
 		const base = -window.innerHeight / 3;
 		const scroll = window.scrollY;
-		const btns = btnRef?.current.children;
-		const boxs = btnRef?.current.parentElement.querySelectorAll('.myScroll');
+		const btns = btnRef.current?.children;
+		const boxs = btnRef.current?.parentElement.querySelectorAll('.myScroll');
 		setScrolled(scroll);
 
 		pos.current.forEach((pos, idx) => {
 			if (scroll >= pos + base) {
-				for (const btn of btns) btn.classList.remove('on');
-				for (const box of boxs) box.classList.remove('on');
+				for (const btn of btns) {
+					btn.classList.remove('on');
+				}
+				for (const box of boxs) {
+					box.classList.remove('on');
+				}
+				// console.log(idx);
 				btns[idx].classList.add('on');
 				boxs[idx].classList.add('on');
 			}
@@ -39,10 +45,33 @@ function Btns({ setScrolled, setPos }) {
 		window.addEventListener('scroll', activation);
 
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+		const observer = new ResizeObserver((entries, observer) => {
+			const isUnmount = entries.every((entry) => entry.contentRect.width === 0 && entry.contentRect.height === 0);
 
-		console.log(pos);
+			if (isUnmount) {
+				observer.disconnect();
+				return;
+			}
+
+			for (const entry of entries) {
+				const { width, height, top, left } = entry.contentRect;
+				if (width !== 0 || height !== 0) {
+					getPos();
+					// console.log(entry.target);
+					//   console.log(`width: ${width}px;, height: ${height}px`);
+					//   console.log(`top: ${top}px;, left: ${left}px`);
+				}
+			}
+
+			console.log('observer start');
+		});
+
+		btnRef?.current.parentElement.querySelectorAll('.myScroll').forEach((myScroll) => {
+			observer.observe(myScroll);
+		});
+
 		return () => {
-			window.removeEventListener('resize', getPos);
+			// window.removeEventListener('resize', getPos);
 			window.removeEventListener('scroll', activation);
 			window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 		};
