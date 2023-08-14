@@ -22,7 +22,7 @@ function Pics() {
 						<ul className='work_list'>
 							{isSuccess &&
 								Pics.map((pic, idx) => {
-									if (idx >= 6) return null;
+									if (idx > 5) return null;
 									return (
 										<li key={idx}>
 											<div className='work_item'>
