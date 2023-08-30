@@ -67,7 +67,7 @@ function Gallery() {
 
 	useEffect(() => {
 		counter.current = 0;
-		if (Mounted && isSuccess && Items.length === 0 && !firstLoaded.current) {
+		if (isSuccess && Items.length === 0 && !firstLoaded.current) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
@@ -91,7 +91,7 @@ function Gallery() {
 			};
 		});
 		return () => setMounted(false);
-	}, [isSuccess, Items, Mounted]);
+	}, [isSuccess, Items]);
 
 	return (
 		<>
@@ -121,7 +121,11 @@ function Gallery() {
 						</div>
 					</div>
 					<div className='frame' ref={frame}>
-						<Masonry elementType={'ul'} className='gallery_list' options={{ transitionDuration: '0.5s' }}>
+						<Masonry
+							elementType={'ul'}
+							className='gallery_list'
+							options={{ transitionDuration: '0.5s' }}
+						>
 							{isSuccess &&
 								Items.map((item, idx) => {
 									return (
@@ -144,7 +148,10 @@ function Gallery() {
 															src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
 															alt={item.title}
 															onError={(e) =>
-																e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')
+																e.target.setAttribute(
+																	'src',
+																	'https://www.flickr.com/images/buddyicon.gif'
+																)
 															}
 														/>
 													</p>

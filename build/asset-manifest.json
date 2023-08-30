@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/portfolio-motion-react/static/css/main.851cb372.css",
-    "main.js": "/portfolio-motion-react/static/js/main.d337ab46.js",
+    "main.js": "/portfolio-motion-react/static/js/main.bba05f87.js",
     "static/media/news.jpg": "/portfolio-motion-react/static/media/news.a61d74be0381d821ea59.jpg",
     "index.html": "/portfolio-motion-react/index.html",
     "main.851cb372.css.map": "/portfolio-motion-react/static/css/main.851cb372.css.map",
-    "main.d337ab46.js.map": "/portfolio-motion-react/static/js/main.d337ab46.js.map"
+    "main.bba05f87.js.map": "/portfolio-motion-react/static/js/main.bba05f87.js.map"
   },
   "entrypoints": [
     "static/css/main.851cb372.css",
-    "static/js/main.d337ab46.js"
+    "static/js/main.bba05f87.js"
   ]
 }
